@@ -1,7 +1,7 @@
 from firebase import storage, firestore, messaging
 from configuration import reader_conf as reader
 #from models import plants_analyzer as analyzer
-import DHT11
+from raspberry.sensors import DHT11
 import time
 
 def update_gardens(gardens, data):
