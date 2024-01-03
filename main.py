@@ -5,7 +5,7 @@ from raspberry.sensors import DHT11
 import time
 
 def update_gardens(gardens, data):
-    print("Update gardens call")
+    print(">> Update gardens call")
     pass
 
 reader = reader.ConfReader()
