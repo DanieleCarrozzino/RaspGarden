@@ -1,3 +1,4 @@
+# sudo pip3 install ultralytics 
 from ultralytics import YOLO
 
 class PlantAnalyzer():

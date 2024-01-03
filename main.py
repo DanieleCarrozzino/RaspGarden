@@ -1,6 +1,6 @@
 from firebase import storage, firestore, messaging
 from configuration import reader_conf as reader
-#from models import plants_analyzer as analyzer
+from models import plants_analyzer as analyzer
 from raspberry.sensors import DHT11
 import time
 
@@ -11,32 +11,42 @@ def update_gardens(gardens, data):
 reader = reader.ConfReader()
 def main():
 
-    print('Init main')
+    print("|***********************|")
+    print('| Start watching garden |')
+    print("|***********************|")
+    print("| - Daniele carrozzino  |")
+    print("|_______________________|")
 
-    # Get sensor data
-    data = [10, 2, 4] # Fake data
-
-
-    sensor = DHT11.DHTClass()
     while True:
 
-        sensor.read()
-        time.sleep(2)
+        print("> Starting loop")
+        print("> Get Data")
 
-        pass
+        # Get sensor data
+        data = []
 
+        # Temperature and humidity
+        sensor = DHT11.DHTClass()
+        temperature, humidity = sensor.read()
+        data.append(temperature)
+        data.append(humidity)
 
-    # Get gardens to update
-    gardens = reader.get_gardens()
-    update_gardens(gardens, data)
+        print("> Updtae gardens")
 
-    # Analyze
-    model = analyzer.PlantAnalyzer()
-    model.getWebcamResult()
-    
-    # Pause and restart
-    time.sleep(10)
-    pass
+        # Get gardens to update
+        gardens = reader.get_gardens()
+        update_gardens(gardens, data)
+
+        print("> Analyze the result")
+
+        # Analyze
+        model = analyzer.PlantAnalyzer()
+        model.getWebcamResult()
+
+        print("> Sleep to restart")
+
+        # Pause and restart
+        time.sleep(10)
 
 if __name__ == "__main__":
     main()
