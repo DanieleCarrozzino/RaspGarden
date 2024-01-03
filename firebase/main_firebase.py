@@ -3,7 +3,7 @@ from firebase_admin import credentials
 
 # Firebase cerdentials
 print("Define Firebase credentials")
-firebase_credential = credentials.Certificate('firebase_credential\\smartgarden-d7604-firebase-adminsdk-3jub3-f91a3cb778.json')
+firebase_credential = credentials.Certificate('firebase_credential/smartgarden-d7604-firebase-adminsdk-3jub3-f91a3cb778.json')
 
 initialized = False
 def init_private_firebase():

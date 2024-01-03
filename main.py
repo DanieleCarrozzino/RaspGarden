@@ -1,6 +1,7 @@
 from firebase import storage, firestore, messaging
 from configuration import reader_conf as reader
 from models import plants_analyzer as analyzer
+from raspberry import DHT11
 import time
 
 def update_gardens(gardens, data):
@@ -14,6 +15,16 @@ def main():
 
     # Get sensor data
     data = [10, 2, 4] # Fake data
+
+
+    while True:
+
+        sensor = DHT11.DHTClass()
+        sensor.read()
+        time.sleep(2)
+
+        pass
+
 
     # Get gardens to update
     gardens = reader.get_gardens()
