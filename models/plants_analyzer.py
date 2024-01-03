@@ -1,5 +1,6 @@
-# sudo pip3 install ultralytics 
+print("> Before YOLO")
 from ultralytics import YOLO
+print("> After YOLO")
 
 class PlantAnalyzer():
 

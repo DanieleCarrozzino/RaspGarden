@@ -1,7 +1,12 @@
+print("Firebase")
 from firebase import storage, firestore, messaging
+print("Configuration")
 from configuration import reader_conf as reader
+print("Models")
 from models import plants_analyzer as analyzer
+print("Sensors")
 from raspberry.sensors import DHT11
+print("Others")
 import time
 
 def update_gardens(gardens, data):
