@@ -17,9 +17,9 @@ def main():
     data = [10, 2, 4] # Fake data
 
 
+    sensor = DHT11.DHTClass()
     while True:
 
-        sensor = DHT11.DHTClass()
         sensor.read()
         time.sleep(2)
 
