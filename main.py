@@ -6,6 +6,7 @@ print("Models")
 #from models import plants_analyzer as analyzer
 print("Sensors")
 from raspberry.sensors import DHT11
+from raspberry.camera import rasp_camera as Camera
 print("Others")
 import time
 
@@ -22,6 +23,10 @@ def main():
     print("| - Daniele carrozzino  |")
     print("|_______________________|")
 
+    # Init class
+    sensor = DHT11.DHTClass()
+    camera = Camera.PiCamera()
+
     while True:
 
         print("> Starting loop")
@@ -30,26 +35,26 @@ def main():
         # Get sensor data
         data = []
 
+        print("> Get temperature and humidity")
         # Temperature and humidity
-        sensor = DHT11.DHTClass()
         temperature, humidity = sensor.read()
         data.append(temperature)
         data.append(humidity)
 
-        print("> Updtae gardens")
-
+        print("> Update gardens")
         # Get gardens to update
         gardens = reader.get_gardens()
         update_gardens(gardens, data)
 
-        print("> Analyze the result")
+        print("> Get picture")
+        camera.capture("./test_photo")
 
+        print("> Analyze the result")
         # Analyze
         # model = analyzer.PlantAnalyzer()
         # model.getWebcamResult()
 
         print("> Sleep to restart")
-
         # Pause and restart
         time.sleep(10)
 

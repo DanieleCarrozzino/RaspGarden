@@ -16,10 +16,11 @@ class DHTClass:
     def read(self):
         print("Start reading temperature and humidity...") 
 
-        valid_result_count  = 0
-        avarage_tempreature = 0
-        avarage_humidity    = 0
-        got_exception       = False
+        valid_result_count      = 0
+        invalid_result_count    = 0
+        avarage_tempreature     = 0
+        avarage_humidity        = 0
+        got_exception           = False
 
         while valid_result_count < 3 or not got_exception:
             try:
@@ -29,6 +30,11 @@ class DHTClass:
                     avarage_tempreature += temperature
                     avarage_humidity    += humidity
                 else:
+                    # Avoid infinite loop over this sensor
+                    invalid_result_count += 1
+                    if invalid_result_count > 10:
+                        return 0, 0
+
                     # Get more time to wake up the sensor
                     time.sleep(2)
 
