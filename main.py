@@ -3,7 +3,7 @@ from firebase import storage, firestore, messaging
 print("Configuration")
 from configuration import reader_conf as reader
 print("Models")
-from models import plants_analyzer as analyzer
+#from models import plants_analyzer as analyzer
 print("Sensors")
 from raspberry.sensors import DHT11
 print("Others")
@@ -45,8 +45,8 @@ def main():
         print("> Analyze the result")
 
         # Analyze
-        model = analyzer.PlantAnalyzer()
-        model.getWebcamResult()
+        # model = analyzer.PlantAnalyzer()
+        # model.getWebcamResult()
 
         print("> Sleep to restart")
 
