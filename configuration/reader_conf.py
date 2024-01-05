@@ -37,7 +37,6 @@ class ConfReader:
     def readConfig(self):
         
         # Get the list of files in the folder
-        print(config_files_folder)
         file_list = os.listdir(config_files_folder)
         if file_list == None:
             return

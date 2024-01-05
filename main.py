@@ -37,9 +37,9 @@ def main():
 
         print("> Get temperature and humidity")
         # Temperature and humidity
-        temperature, humidity = sensor.read()
-        data.append(temperature)
-        data.append(humidity)
+        #temperature, humidity = sensor.read()
+        #data.append(temperature)
+        #data.append(humidity)
 
         print("> Update gardens")
         # Get gardens to update
@@ -56,7 +56,7 @@ def main():
 
         print("> Sleep to restart")
         # Pause and restart
-        time.sleep(10)
+        time.sleep(5)
 
 if __name__ == "__main__":
     main()
