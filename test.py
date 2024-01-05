@@ -1,14 +1,8 @@
 import time
-import adafruit_ads1x15.ads1115 as ADS
-from adafruit_ads1x15.analog_in import AnalogIn
 
-adc = ADS.ADS1015(address=0x48, bus=1)
+# Import the ADS1x15 module.
+import Adafruit_ADS1x15
 
-# Create analog input channels
-chan = AnalogIn(adc, ADS.P0)  # Change ADS.P0 to ADS.P1 for AIN1, ADS.P2 for AIN2, etc.
 
-# Read analog input continuously
-while True:
-    print("Voltage: {:.2f}V".format(chan.voltage))
-    print("ADC Value: {}".format(chan.value))
-    time.sleep(1)
+# Create an ADS1115 ADC (16-bit) instance.
+adc = Adafruit_ADS1x15.ADS1115()
