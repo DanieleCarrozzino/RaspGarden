@@ -32,7 +32,9 @@ class DHTClass:
                 else:
                     # Avoid infinite loop over this sensor
                     invalid_result_count += 1
-                    if invalid_result_count > 10:
+
+                    # TODO increase treshold
+                    if invalid_result_count > 1:
                         return 0, 0
 
                     # Get more time to wake up the sensor
