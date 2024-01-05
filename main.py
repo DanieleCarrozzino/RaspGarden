@@ -37,9 +37,9 @@ def main():
 
         print("> Get temperature and humidity")
         # Temperature and humidity
-        #temperature, humidity = sensor.read()
-        #data.append(temperature)
-        #data.append(humidity)
+        temperature, humidity = sensor.read()
+        data.append(temperature)
+        data.append(humidity)
 
         print("> Update gardens")
         # Get gardens to update
