@@ -38,6 +38,8 @@ class ConfReader:
         
         # Get the list of files in the folder
         file_list = os.listdir(config_files_folder)
+        if file_list == None:
+            return
 
         # Print the list of files
         for file_name in file_list:
