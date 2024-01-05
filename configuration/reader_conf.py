@@ -37,6 +37,7 @@ class ConfReader:
     def readConfig(self):
         
         # Get the list of files in the folder
+        print(config_files_folder)
         file_list = os.listdir(config_files_folder)
         if file_list == None:
             return
@@ -55,8 +56,8 @@ class ConfReader:
             print("garden_id:", json_data['garden_id'])
             print("user_token:", json_data['user_token'])
 
-            self.token_list.append()
-            self.garden_list.append()
+            self.token_list.append(json_data['user_token'])
+            self.garden_list.append(json_data['garden_id'])
             pass
 
     def get_tokens(self):

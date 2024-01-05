@@ -33,7 +33,7 @@ class DHTClass:
                     # Avoid infinite loop over this sensor
                     invalid_result_count += 1
 
-                    # TODO increase treshold
+                    # TODO increase threshold
                     if invalid_result_count > 1:
                         return 0, 0
 
