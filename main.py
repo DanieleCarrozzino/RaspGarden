@@ -42,6 +42,11 @@ def update_gardens(gardens):
     for garden in gardens:
         print('Send uodate to:')
         print(garden)
+
+        serializable_data = old_data
+        serializable_data["temperatures"]   = list(serializable_data["temperatures"])
+        serializable_data["humidity"]       = list(serializable_data["humidity"])
+        serializable_data["soil_moistures"] = list(serializable_data["soil_moistures"])
         firebase_database.update_node('gardens', garden, old_data)
     pass
 
