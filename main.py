@@ -82,6 +82,10 @@ def processing_data(dict : dict):
     old_data["humidity"].append(dict['humidity'])
     old_data["soil_moistures"].append(dict['moisture'])
 
+    avarage_temperature     = 0
+    avarage_humidity        = 0
+    avarage_soil_moisture   = 0
+
     for temperature in old_data["temperatures"]:
         avarage_temperature += temperature
     avarage_temperature = avarage_temperature / len(old_data["temperatures"])
