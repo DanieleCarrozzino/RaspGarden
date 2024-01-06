@@ -22,7 +22,7 @@ class DHTClass:
         avarage_humidity        = 0
         got_exception           = False
 
-        while valid_result_count < 3 or not got_exception:
+        while valid_result_count < 3 and not got_exception:
             print(valid_result_count)
             try:
                 humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
