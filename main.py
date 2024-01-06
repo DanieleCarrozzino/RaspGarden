@@ -47,7 +47,7 @@ def update_gardens(gardens):
         serializable_data["temperatures"]   = list(serializable_data["temperatures"])
         serializable_data["humidity"]       = list(serializable_data["humidity"])
         serializable_data["soil_moistures"] = list(serializable_data["soil_moistures"])
-        firebase_database.update_node('gardens', garden, old_data)
+        firebase_database.update_node('gardens', garden, serializable_data)
     pass
 
 
