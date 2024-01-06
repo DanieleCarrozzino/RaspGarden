@@ -10,7 +10,7 @@ from raspberry.sensors import ADS1115
 from raspberry.camera import rasp_camera as Camera
 print("Others")
 import time
-from collections import deque
+import queue
 
 # Const
 MAX_VALUES = 30
@@ -25,9 +25,9 @@ firebase_database = database.Database()
 
 # Old data to analyze
 old_data = {
-    "temperatures": deque(maxlen = MAX_VALUES),
-    "humidity": deque(maxlen = MAX_VALUES),
-    "soil_moistures":deque(maxlen = MAX_VALUES)
+    "temperatures": queue.Queue(MAX_VALUES),
+    "humidity": queue.Queue(MAX_VALUES),
+    "soil_moistures": queue.Queue(MAX_VALUES)
     }
 
 # New data
@@ -53,6 +53,9 @@ def update_gardens(gardens):
         serializable_data["temperatures"]   = list(serializable_data["temperatures"])
         serializable_data["humidity"]       = list(serializable_data["humidity"])
         serializable_data["soil_moistures"] = list(serializable_data["soil_moistures"])
+        serializable_data['avarage_temperature']    = avarage_temperature
+        serializable_data['avarage_humidity']       = avarage_humidity
+        serializable_data['avarage_soil_moisture']  = avarage_soil_moisture
         firebase_database.update_node('gardens', garden, serializable_data)
     pass
 
@@ -89,9 +92,9 @@ def get_new_data():
 
 def processing_data(dict : dict):
 
-    old_data["temperatures"].append(dict['temperature'])
-    old_data["humidity"].append(dict['humidity'])
-    old_data["soil_moistures"].append(dict['moisture'])
+    old_data["temperatures"].put(dict['temperature'])
+    old_data["humidity"].put(dict['humidity'])
+    old_data["soil_moistures"].put(dict['moisture'])
 
     avarage_temperature     = 0
     avarage_humidity        = 0
