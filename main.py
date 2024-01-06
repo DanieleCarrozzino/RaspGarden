@@ -36,11 +36,17 @@ avarage_humidity        = 0
 avarage_soil_moisture   = 0
 
 
-
+#
+# Update gardens
+#
+# update the real time database
+# with all the processing data 
+# get during this loop
+#
 def update_gardens(gardens):
     print(">> Update gardens call")
     for garden in gardens:
-        print('Send uodate to:')
+        print('Send update to:')
         print(garden)
 
         serializable_data = old_data

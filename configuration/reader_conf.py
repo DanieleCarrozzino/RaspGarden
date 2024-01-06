@@ -55,8 +55,14 @@ class ConfReader:
             print("garden_id:", json_data['garden_id'])
             print("user_token:", json_data['user_token'])
 
-            self.token_list.append(json_data['user_token'])
-            self.garden_list.append(json_data['garden_id'])
+            if json_data['user_token'] not in self.token_list:
+                self.token_list.append(json_data['user_token'])
+                pass
+
+            if json_data['garden_id'] not in self.garden_list:
+                self.garden_list.append(json_data['garden_id'])
+                pass
+
             pass
 
     def get_tokens(self):
