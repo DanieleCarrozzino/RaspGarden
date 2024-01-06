@@ -50,9 +50,9 @@ def update_gardens(gardens):
         print(garden)
 
         serializable_data = old_data
-        serializable_data["temperatures"]   = list(serializable_data["temperatures"])
-        serializable_data["humidity"]       = list(serializable_data["humidity"])
-        serializable_data["soil_moistures"] = list(serializable_data["soil_moistures"])
+        serializable_data["temperatures"]   = serializable_data["temperatures"]
+        serializable_data["humidity"]       = serializable_data["humidity"]
+        serializable_data["soil_moistures"] = serializable_data["soil_moistures"]
         serializable_data['avarage_temperature']    = avarage_temperature
         serializable_data['avarage_humidity']       = avarage_humidity
         serializable_data['avarage_soil_moisture']  = avarage_soil_moisture
@@ -107,9 +107,9 @@ def processing_data(dict : dict):
         old_data["soil_moistures"].pop(0)
         pass
 
-    old_data["temperatures"].put(dict['temperature'])
-    old_data["humidity"].put(dict['humidity'])
-    old_data["soil_moistures"].put(dict['moisture'])
+    old_data["temperatures"].append(dict['temperature'])
+    old_data["humidity"].append(dict['humidity'])
+    old_data["soil_moistures"].append(dict['moisture'])
 
     avarage_temperature     = 0
     avarage_humidity        = 0
