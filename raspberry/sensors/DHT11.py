@@ -48,5 +48,5 @@ class DHTClass:
                 got_exception = True
                 pass
             pass
-        return avarage_tempreature, avarage_humidity
+        return avarage_tempreature / valid_result_count, avarage_humidity / valid_result_count
     pass
