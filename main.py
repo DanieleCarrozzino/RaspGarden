@@ -124,7 +124,7 @@ def processing_data(dict : dict):
     avarage_humidity = avarage_humidity / len(old_data["humidity"])
 
     for i in range(len(old_data["soil_moistures"])):
-        avarage_soil_moisture += old_data["soil_moistures"][i]
+        avarage_soil_moisture += old_data["soil_moistures"][i][0]
     avarage_soil_moisture = avarage_soil_moisture / len(old_data["soil_moistures"])
     
     print(old_data)
