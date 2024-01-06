@@ -25,9 +25,9 @@ firebase_database = database.Database()
 
 # Old data to analyze
 old_data = {
-    "temperatures": queue.Queue(MAX_VALUES),
-    "humidity": queue.Queue(MAX_VALUES),
-    "soil_moistures": queue.Queue(MAX_VALUES)
+    "temperatures": list(),
+    "humidity": list(),
+    "soil_moistures": list()
     }
 
 # New data
@@ -91,6 +91,21 @@ def get_new_data():
 
 
 def processing_data(dict : dict):
+
+    # Define a maximum size for the lists
+    # remove the first element if the list
+    # is more than MAX_VALUES length
+    if len(old_data["temperatures"]) > MAX_VALUES:
+        old_data["temperatures"].pop(0)
+        pass
+
+    if len(old_data["humidity"]) > MAX_VALUES:
+        old_data["humidity"].pop(0)
+        pass
+
+    if len(old_data["soil_moistures"]) > MAX_VALUES:
+        old_data["soil_moistures"].pop(0)
+        pass
 
     old_data["temperatures"].put(dict['temperature'])
     old_data["humidity"].put(dict['humidity'])
