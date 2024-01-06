@@ -12,7 +12,8 @@ def init_private_firebase():
     global initialized
     if not firebase_admin._apps:
         firebase_admin.initialize_app(firebase_credential, {
-            'storageBucket': 'smartgarden-d7604.appspot.com'
+            'storageBucket': 'smartgarden-d7604.appspot.com',
+            'databaseURL': "https://smartgarden-d7604-default-rtdb.europe-west1.firebasedatabase.app/"
         })
         initialized = True
 
