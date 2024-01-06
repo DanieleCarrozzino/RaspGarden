@@ -100,16 +100,16 @@ def processing_data(dict : dict):
     avarage_humidity        = 0
     avarage_soil_moisture   = 0
 
-    for temperature in old_data["temperatures"]:
-        avarage_temperature += temperature
+    for i in range(len(old_data["temperatures"])):
+        avarage_temperature += old_data["temperatures"][i]
     avarage_temperature = avarage_temperature / len(old_data["temperatures"])
 
-    for humidity in old_data["humidity"]:
-        avarage_humidity += humidity
+    for i in range(len(old_data["humidity"])):
+        avarage_humidity += old_data["humidity"][i]
     avarage_humidity = avarage_humidity / len(old_data["humidity"])
 
-    for soil_moisture in old_data["soil_moistures"]:
-        avarage_soil_moisture += soil_moisture[0]
+    for i in range(len(old_data["soil_moistures"])):
+        avarage_soil_moisture += old_data["soil_moistures"][i]
     avarage_soil_moisture = avarage_soil_moisture / len(old_data["soil_moistures"])
     
     print(old_data)
