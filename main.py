@@ -1,7 +1,7 @@
 print("Firebase")
-from firebase import storage, firestore, messaging, database
+from firebase import storage, firestore, messaging, database, main_firebase
 print("Configuration")
-from configuration import reader_conf
+from configuration import reader_conf, qr_creator
 print("Models")
 #from models import plants_analyzer as analyzer
 print("Sensors")
@@ -131,12 +131,25 @@ def processing_data(dict : dict):
     
     print(old_data)
 
+#
+# SAVE PICTURE
+#
+# save the resulting picture inside 
+# the storage of firebase
+# into the folder of this raspberry code
+#
 def save_picture(file_path, file_name):
     print(">> File name of the new picture")
     print(file_name)
     print(">> File path of the picture")
     print(file_path)
     storage_manager.save_image_from_file_name(file_path, file_name)
+    pass
+
+
+def create_qr():
+    text = "rasp_code:rasp_test_code1"
+    qr_creator.create_and_print_QR(text)
     pass
 
 def main():
@@ -146,6 +159,10 @@ def main():
     print("|***********************|")
     print("| - Daniele carrozzino  |")
     print("|_______________________|")
+
+    print("\n\nCreate qr to provide something")
+    create_qr()
+    print("\n\n")
 
     print("> Starting loop")
     while True:
@@ -168,7 +185,8 @@ def main():
         name = camera.capture(picture_path)
 
         print("> Save photo")
-        save_picture(picture_path + name, name)
+        # OPEN in RELEASE
+        # save_picture(picture_path + name, name)
 
         print("> Analyze the result")
         # Analyze
