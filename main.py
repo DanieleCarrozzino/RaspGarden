@@ -188,7 +188,7 @@ def main():
 
         print("> Save photo")
         # OPEN in RELEASE
-        save_picture(picture_path + name, "Pictures/" + name)
+        # save_picture(picture_path + name, "Pictures/" + name)
 
         print("> Analyze the result")
         # Analyze
