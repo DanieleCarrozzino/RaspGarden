@@ -12,6 +12,7 @@ print("Others")
 import time
 import queue
 import datetime
+import shutil
 
 # Const
 MAX_VALUES = 30
@@ -150,7 +151,7 @@ def save_picture(file_path, file_name):
 def create_qr():
     text = "rasp_code:rasp_test_code1"
     path = qr_creator.create_and_save_QR(text)
-    save_picture(path, "./QR/qr.png")
+    save_picture(path, "/QR/qr.png")
     pass
 
 def main():
@@ -194,6 +195,9 @@ def main():
         # model = analyzer.PlantAnalyzer()
         # model.getWebcamResult()
 
+        print("> Remove the local picture")
+        shutil.rmtree(picture_path)
+
         print("> Sleep to restart")
         # Pause and restart
         time.sleep(5)
@@ -219,8 +223,6 @@ firestore_manager.get('user', 'user1')
 ##############################
 storage_manager = storage.ImagesStorage()
 storage_manager.save_image('C:\\Users\\em-hp2\\Desktop\\Works\\Python\\FirebaseProject\\README.md', 'test/test.md')
-# OR
-storage_manager.save_image('C:\\Users\\em-hp2\\Desktop\\Works\\Python\\FirebaseProject\\README.md', 'image1.jpg')
 
 
 #####################
