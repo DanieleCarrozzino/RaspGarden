@@ -1,6 +1,7 @@
 import picamera
 import time
 import datetime
+import os
 
 class PiCamera():
 
@@ -10,6 +11,7 @@ class PiCamera():
         pass
 
     def capture(self, photo_path):
+        os.makedirs(photo_path, exist_ok=True)
         with picamera.PiCamera() as camera:
             # Give the camera time to warm up
             time.sleep(2)

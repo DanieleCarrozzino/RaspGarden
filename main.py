@@ -168,7 +168,7 @@ def main():
         name = camera.capture(picture_path)
 
         print("> Save photo")
-        save_picture(picture_path, name)
+        save_picture(picture_path + name, name)
 
         print("> Analyze the result")
         # Analyze
