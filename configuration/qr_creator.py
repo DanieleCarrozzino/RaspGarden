@@ -10,7 +10,7 @@ def create_and_save_QR(text):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=2,  # Adjust box_size for better visibility in the terminal
+        box_size=10,  # Adjust box_size for better visibility in the terminal
         border=2,
     )
 
