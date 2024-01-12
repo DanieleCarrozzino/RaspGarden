@@ -17,7 +17,12 @@ class PiCamera():
             # Capture a photo
             current_time = datetime.datetime.now()
             name = current_time.strftime("%Y-%m-%d_%H-%M-%S") + self.photo_extension 
+
+            print(">>> Final path destination")
+            print(photo_path + name)
             camera.capture(photo_path + name)
+
+        print(f">>> Return value {name}")
         return name
 
     def video_capture(self, video_path):
