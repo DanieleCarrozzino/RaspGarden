@@ -10,6 +10,9 @@ class ImagesStorage:
         # init firebase
         firebase.initialize_firebase()
 
+        # Get personal code
+        self.code = firebase.getPersonalCode()
+
         # Access your storage bucket
         self.bucket = storage.bucket()
         pass
@@ -20,6 +23,14 @@ class ImagesStorage:
         blob.upload_from_filename(file_path)
 
         print("File uploaded to Firebase Storage successfully.")
+        pass
+
+    def save_image_from_file_name(self, file_path, file_name):
+
+        print(f">>> Final destination path : {self.code}/{file_name}")
+        blob = self.bucket.blob(f"{self.code}/{file_name}")
+        blob.upload_from_filename(file_path)
+        print(">>> File uploaded to Firebase Storage successfully.")
         pass
 
     pass

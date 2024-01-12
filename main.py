@@ -11,6 +11,7 @@ from raspberry.camera import rasp_camera as Camera
 print("Others")
 import time
 import queue
+import datetime
 
 # Const
 MAX_VALUES = 30
@@ -21,7 +22,8 @@ sensor_moisture     = ADS1115.ADS1115Class()
 camera = Camera.PiCamera()
 reader = reader_conf.ConfReader()
 # Firebase
-firebase_database = database.Database()
+firebase_database   = database.Database()
+storage_manager     = storage.ImagesStorage()
 
 # Old data to analyze
 old_data = {
@@ -129,6 +131,13 @@ def processing_data(dict : dict):
     
     print(old_data)
 
+def save_picture(file_path, file_name):
+    print(">> File name of the new picture")
+    print(file_name)
+    print(">> File path of the picture")
+    print(file_path)
+    storage_manager.save_image_from_file_name(file_path, file_name)
+    pass
 
 def main():
 
@@ -155,7 +164,11 @@ def main():
         update_gardens(gardens)
 
         print("> Get picture")
-        camera.capture("./test_photo")
+        picture_path = "./pictures/"
+        name = camera.capture(picture_path)
+
+        print("> Save photo")
+        save_picture(picture_path, name)
 
         print("> Analyze the result")
         # Analyze
@@ -187,6 +200,8 @@ firestore_manager.get('user', 'user1')
 ##############################
 storage_manager = storage.ImagesStorage()
 storage_manager.save_image('C:\\Users\\em-hp2\\Desktop\\Works\\Python\\FirebaseProject\\README.md', 'test/test.md')
+# OR
+storage_manager.save_image('C:\\Users\\em-hp2\\Desktop\\Works\\Python\\FirebaseProject\\README.md', 'image1.jpg')
 
 
 #####################

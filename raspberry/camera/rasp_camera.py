@@ -1,5 +1,6 @@
 import picamera
 import time
+import datetime
 
 class PiCamera():
 
@@ -14,7 +15,10 @@ class PiCamera():
             time.sleep(2)
 
             # Capture a photo
-            camera.capture(photo_path + self.photo_extension)
+            current_time = datetime.datetime.now()
+            name = current_time.strftime("%Y-%m-%d_%H-%M-%S") + self.photo_extension 
+            camera.capture(photo_path + name)
+        return name
 
     def video_capture(self, video_path):
         with picamera.PiCamera() as camera:
