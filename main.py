@@ -10,8 +10,6 @@ from raspberry.sensors import ADS1115
 from raspberry.camera import rasp_camera as Camera
 print("Others")
 import time
-import queue
-import datetime
 import shutil
 
 # Const
@@ -131,6 +129,9 @@ def processing_data(dict : dict):
     avarage_soil_moisture = avarage_soil_moisture / len(old_data["soil_moistures"])
     
     print(old_data)
+    print(avarage_humidity)
+    print(avarage_soil_moisture)
+    print(avarage_temperature)
 
 #
 # SAVE PICTURE
