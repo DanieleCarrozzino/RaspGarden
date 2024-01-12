@@ -56,7 +56,7 @@ class ConfReader:
             # get the token from firebase firestore
             print("garden_id:", json_data['garden_id'])
             print("user_token:", json_data['user_token'])
-            print("user_id:", json_data['user_id'])
+            print("user_uid:", json_data['user_uid'])
 
             if json_data['user_token'] not in self.token_list:
                 self.token_list.append(json_data['user_token'])
