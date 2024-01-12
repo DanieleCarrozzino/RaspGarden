@@ -149,7 +149,8 @@ def save_picture(file_path, file_name):
 
 def create_qr():
     text = "rasp_code:rasp_test_code1"
-    qr_creator.create_and_print_QR(text)
+    path = qr_creator.create_and_save_QR(text)
+    save_picture(path, "./QR/qr.png")
     pass
 
 def main():

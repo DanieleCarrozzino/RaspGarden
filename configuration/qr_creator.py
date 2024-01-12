@@ -1,6 +1,11 @@
 import qrcode
 
-def create_and_print_QR(text):
+#
+# Create and save the qr
+# return the final path where
+# the qr is been saved
+#
+def create_and_save_QR(text):
     # Create QR code instance
     qr = qrcode.QRCode(
         version=1,
@@ -13,8 +18,9 @@ def create_and_print_QR(text):
     qr.add_data(text)
     qr.make(fit=True)
 
-    # Create an ASCII representation of the QR code
-    qr_ascii = qr.make_ascii()
+    # Create an image from the QR code
+    img = qr.make_image(fill_color="black", back_color="white")
 
-    # Print the ASCII representation in the terminal
-    print(qr_ascii)
+    # Save the image or display it
+    img.save("./my_qr_code.png")
+    return "./my_qr_code.png"
