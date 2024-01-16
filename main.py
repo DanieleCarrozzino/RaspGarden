@@ -8,9 +8,12 @@ print("Sensors")
 from raspberry.sensors import DHT11
 from raspberry.sensors import ADS1115
 from raspberry.camera import rasp_camera as Camera
+print("Vidoe editing")
+from video import editor as VideoEditor
 print("Others")
 import time
 import shutil
+import datetime
 
 # Const
 MAX_VALUES = 30
@@ -20,6 +23,7 @@ sensor_temperature  = DHT11.DHTClass()
 sensor_moisture     = ADS1115.ADS1115Class()
 camera = Camera.PiCamera()
 reader = reader_conf.ConfReader()
+editor = VideoEditor.Editor()
 # Firebase
 firebase_database   = database.Database()
 storage_manager     = storage.ImagesStorage()
@@ -148,6 +152,17 @@ def save_picture(file_path, file_name):
     storage_manager.save_image_from_file_name(file_path, file_name)
     pass
 
+#
+# CREATE TIMELAPS
+# create the new video with the new image
+# and then caoncat the video with the main
+# video
+#
+def create_timelaps(images_path):
+    editor.create_video(images_path)
+    editor.concat_video()
+    pass
+
 
 def create_qr():
     text = "rasp_code:rasp_test_code1"
@@ -189,7 +204,17 @@ def main():
 
         print("> Save photo")
         # OPEN in RELEASE
-        # save_picture(picture_path + name, "Pictures/" + name)
+        # Create a new different name
+        current_time = datetime.datetime.now()
+        new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+        save_picture(picture_path + name, "Pictures/" + new_name + name)
+
+        print("> Create timelaps")
+        create_timelaps("./pictures/")
+
+        print("> Save timelaps")
+        # TODO find the correct path
+        # save_picture()
 
         print("> Analyze the result")
         # Analyze

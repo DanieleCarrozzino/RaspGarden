@@ -17,8 +17,7 @@ class PiCamera():
             time.sleep(2)
 
             # Capture a photo
-            current_time = datetime.datetime.now()
-            name = current_time.strftime("%Y-%m-%d_%H-%M-%S") + self.photo_extension 
+            name = "1" + self.photo_extension 
 
             print(">>> Final path destination")
             print(photo_path + name)
