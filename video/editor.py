@@ -25,7 +25,7 @@ class Editor:
         subprocess.run([
             'ffmpeg',
             '-framerate', str(fps),
-            '-i', f"{images_folder}",
+            '-i', f"{images_folder}%d.jpg",
             '-c:v', 'libx264',
             '-r', '30',  # Output video frame rate
             '-pix_fmt', 'yuv420p',
