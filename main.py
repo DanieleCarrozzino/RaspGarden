@@ -210,7 +210,7 @@ def main():
         save_picture(picture_path + name, "Pictures/" + new_name + name)
 
         print("> Create timelaps")
-        create_timelaps("./pictures/")
+        create_timelaps(picture_path)
 
         print("> Save timelaps")
         # TODO find the correct path

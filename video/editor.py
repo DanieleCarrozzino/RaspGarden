@@ -12,6 +12,7 @@ class Editor:
     # fps 80 to get a real video
     def create_video(self, images_folder, output_video_path = "./tmp_timelaps.mp4", fps=5):
 
+        print(">> Creating tmp time laps")
         # Ensure the output directory exists
         os.makedirs(os.path.dirname(output_video_path), exist_ok=True)
 
@@ -36,6 +37,7 @@ class Editor:
 
     def concat_video(self, output_name = "./timelaps.mp4"):
 
+        print(">> Concat tmp time laps")
         # Run FFmpeg command to concat 2 different video
         subprocess.run([
             'ffmpeg',
