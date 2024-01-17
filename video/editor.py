@@ -13,6 +13,8 @@ class Editor:
     def create_video(self, images_folder, output_video_path = "./tmp_timelaps.mp4", fps=5):
 
         print(">> Creating tmp time laps")
+        print(images_folder)
+        print(f"{images_folder}%d.png")
         # Ensure the output directory exists
         os.makedirs(os.path.dirname(output_video_path), exist_ok=True)
 
@@ -25,7 +27,7 @@ class Editor:
         subprocess.run([
             'ffmpeg',
             '-framerate', str(fps),
-            '-i', f"{images_folder}%d.jpg",
+            '-i', f"{images_folder}%d.png",
             '-c:v', 'libx264',
             '-r', '30',  # Output video frame rate
             '-pix_fmt', 'yuv420p',

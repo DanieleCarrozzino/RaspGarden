@@ -6,7 +6,7 @@ import os
 class PiCamera():
 
     def __init__(self) -> None:
-        self.photo_extension = '.jpg'
+        self.photo_extension = '.png'
         self.video_extension = '.h264'
         pass
 
