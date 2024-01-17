@@ -222,7 +222,7 @@ def main():
         # model.getWebcamResult()
 
         print("> Remove the local picture")
-        shutil.rmtree(picture_path)
+        # shutil.rmtree(picture_path)
 
         print("> Sleep to restart")
         # Pause and restart
