@@ -70,9 +70,11 @@ class Editor:
     def concat_video(self):
 
         # Clone and remove the old one
-        os.remove(edit_timelaps)
+        if os.path.exists(edit_timelaps):
+            os.remove(edit_timelaps)
         self.clone_file(timelaps_name, edit_timelaps)
-        os.remove(timelaps_name)
+        if os.path.exists(timelaps_name):
+            os.remove(timelaps_name)
 
         print(">> Concat tmp time laps")
         # Run FFmpeg command to concat 2 different video
