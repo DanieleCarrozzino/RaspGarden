@@ -1,6 +1,11 @@
 import subprocess
 import os
 
+# Temporary file
+tmp = 'tmp_timelaps.mp4'
+# Main file
+timelaps_name = 'timelaps.mp4'
+
 class Editor:
 
     #
@@ -10,16 +15,16 @@ class Editor:
     #
     # fps 10 to get a slow video
     # fps 80 to get a real video
-    def create_video(self, images_folder, output_video_path = "tmp_timelaps.mp4", fps=5):
+    def create_video(self, images_folder, fps=5):
 
         print(">> Creating tmp time laps")
         # current_path = os.getcwd() + '/pictures/%d.png'
         images_folder = images_folder + '%d.png'
 
         # Delete the old timelaps
-        if os.path.exists(output_video_path):
+        if os.path.exists(tmp):
             # Delete the file
-            os.remove(output_video_path)
+            os.remove(tmp)
 
         # Run FFmpeg command to create a video from images
         subprocess.run([
@@ -29,13 +34,25 @@ class Editor:
             '-c:v', 'libx264',
             '-r', '30',  # Output video frame rate
             '-pix_fmt', 'yuv420p',
-            output_video_path
+            tmp
         ])
-        pass
+        
+        # If not exists teh main video
+        # create it with the first image
+        if not os.path.exists(timelaps_name):
+            subprocess.run([
+                'ffmpeg',
+                '-framerate', str(fps),
+                '-i', images_folder,
+                '-c:v', 'libx264',
+                '-r', '30',  # Output video frame rate
+                '-pix_fmt', 'yuv420p',
+                timelaps_name
+            ])
 
     pass
 
-    def concat_video(self, output_path = "timelaps.mp4"):
+    def concat_video(self):
 
         print(">> Concat tmp time laps")
         # Run FFmpeg command to concat 2 different video
@@ -43,13 +60,13 @@ class Editor:
             'ffmpeg',
             '-f', 'concat',
             '-safe 0', '-i',
-            './video/concat.txt', '-c:v', 'libx264',
+            'concat.txt', '-c:v', 'libx264',
             '-r', '30',
             '-pix_fmt', 'yuv420p',
-            output_path
+            timelaps_name
         ])
 
-        return output_path
+        return timelaps_name
 
 # Example
 #
