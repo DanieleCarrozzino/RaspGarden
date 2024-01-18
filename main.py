@@ -160,8 +160,7 @@ def save_picture(file_path, file_name):
 #
 def create_timelaps(images_path):
     editor.create_video(images_path)
-    editor.concat_video()
-    pass
+    return editor.concat_video()
 
 
 def create_qr():
@@ -210,11 +209,10 @@ def main():
         save_picture(picture_path + name, "Pictures/" + new_name + name)
 
         print("> Create timelaps")
-        create_timelaps(picture_path)
+        output_path_timelaps = create_timelaps(picture_path)
 
         print("> Save timelaps")
-        # TODO find the correct path
-        # save_picture()
+        save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
 
         print("> Analyze the result")
         # Analyze
@@ -222,7 +220,7 @@ def main():
         # model.getWebcamResult()
 
         print("> Remove the local picture")
-        # shutil.rmtree(picture_path)
+        shutil.rmtree(picture_path)
 
         print("> Sleep to restart")
         # Pause and restart
