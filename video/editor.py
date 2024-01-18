@@ -13,7 +13,7 @@ class Editor:
     def create_video(self, images_folder, output_video_path = "tmp_timelaps.mp4", fps=5):
 
         print(">> Creating tmp time laps")
-        current_path = os.getcwd() + '/pictures/'
+        current_path = os.getcwd() + '/pictures/%d.png'
         print("Current Path:", current_path)
 
         # Delete the old timelaps
@@ -25,7 +25,7 @@ class Editor:
         subprocess.run([
             'ffmpeg',
             '-framerate', str(fps),
-            '-i', f"\'{current_path}\'",
+            '-i', current_path,
             '-c:v', 'libx264',
             '-r', '30',  # Output video frame rate
             '-pix_fmt', 'yuv420p',
