@@ -1,2 +1,2 @@
-file 'timelaps.mp4'
+file 'edit_timelaps.mp4'
 file 'tmp_timelaps.mp4'

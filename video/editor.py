@@ -1,5 +1,6 @@
 import subprocess
 import os
+import shutil
 
 # Temporary file
 tmp = 'tmp_timelaps.mp4'
@@ -7,6 +8,18 @@ tmp = 'tmp_timelaps.mp4'
 timelaps_name = 'timelaps.mp4'
 
 class Editor:
+
+    def clone_file(self, original_filename, new_filename):
+        # Open the original file for reading
+        with open(original_filename, 'rb') as original_file:
+            # Read the content of the original file
+            file_content = original_file.read()
+
+        # Open the new file for writing
+        with open(new_filename, 'wb') as new_file:
+            # Write the content to the new file
+            new_file.write(file_content)
+        pass
 
     #
     # Create video
@@ -53,6 +66,10 @@ class Editor:
     pass
 
     def concat_video(self):
+
+        # Clone and remove the old one
+        self.clone_file(timelaps_name, "edit_timelaps.mp4")
+        os.remove(timelaps_name)
 
         print(">> Concat tmp time laps")
         # Run FFmpeg command to concat 2 different video

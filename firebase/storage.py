@@ -1,4 +1,5 @@
 from firebase_admin import storage
+import os
 from firebase import main_firebase as firebase
 
 # Save images inside my personal 
@@ -31,6 +32,14 @@ class ImagesStorage:
         blob = self.bucket.blob(f"{self.code}/{file_name}")
         blob.upload_from_filename(file_path)
         print(">>> File uploaded to Firebase Storage successfully.")
+        pass
+
+    def downloadFile(self):
+        blob = self.bucket.blob('smartgarden-d7604.appspot.com/rasp_test_code1/Timelaps/timelaps.mp4')
+        
+        # Download the file to a local file
+        destination_path = os.path.join(os.getcwd(), "timelaps.mp4")
+        blob.download_to_filename(destination_path)
         pass
 
     pass
