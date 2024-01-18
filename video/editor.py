@@ -58,8 +58,7 @@ class Editor:
         # Run FFmpeg command to concat 2 different video
         subprocess.run([
             'ffmpeg',
-            '-f', 'concat',
-            '-safe 0', '-i',
+            '-f', 'concat', '-i',
             'concat.txt', '-c:v', 'libx264',
             '-r', '30',
             '-pix_fmt', 'yuv420p',
