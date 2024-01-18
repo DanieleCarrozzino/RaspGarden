@@ -13,7 +13,7 @@ class Editor:
     def create_video(self, images_folder, output_video_path = "tmp_timelaps.mp4", fps=5):
 
         print(">> Creating tmp time laps")
-        current_path = os.getcwd() + '/pictures/%d.png'
+        current_path = os.getcwd() + '/pictures/'
         print("Current Path:", current_path)
 
         # Delete the old timelaps
