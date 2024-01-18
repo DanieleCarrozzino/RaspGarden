@@ -13,8 +13,8 @@ class Editor:
     def create_video(self, images_folder, output_video_path = "tmp_timelaps.mp4", fps=5):
 
         print(">> Creating tmp time laps")
-        current_path = os.getcwd() + '/pictures/%d.png'
-        print("Current Path:", current_path)
+        # current_path = os.getcwd() + '/pictures/%d.png'
+        images_folder = images_folder + '%d.png'
 
         # Delete the old timelaps
         if os.path.exists(output_video_path):
@@ -25,7 +25,7 @@ class Editor:
         subprocess.run([
             'ffmpeg',
             '-framerate', str(fps),
-            '-i', current_path,
+            '-i', images_folder,
             '-c:v', 'libx264',
             '-r', '30',  # Output video frame rate
             '-pix_fmt', 'yuv420p',
@@ -35,7 +35,7 @@ class Editor:
 
     pass
 
-    def concat_video(self, output_path = "./timelaps.mp4"):
+    def concat_video(self, output_path = "timelaps.mp4"):
 
         print(">> Concat tmp time laps")
         # Run FFmpeg command to concat 2 different video
@@ -43,11 +43,11 @@ class Editor:
             'ffmpeg',
             '-f', 'concat',
             '-safe 0', '-i',
-            '\'./video/concat.txt\'', '-c:v', 'libx264',
-            '-r', '30',  # Output video frame rate
+            './video/concat.txt', '-c:v', 'libx264',
+            '-r', '30',
             '-pix_fmt', 'yuv420p',
             output_path
-        ], shell=True)
+        ])
 
         return output_path
 
