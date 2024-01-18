@@ -16,9 +16,6 @@ class Editor:
         current_path = os.getcwd() + '/pictures/%d.png'
         print("Current Path:", current_path)
 
-        # Ensure the output directory exists
-        os.makedirs(os.path.dirname(output_video_path), exist_ok=True)
-
         # Delete the old timelaps
         if os.path.exists(output_video_path):
             # Delete the file
