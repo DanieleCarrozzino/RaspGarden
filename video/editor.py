@@ -3,9 +3,11 @@ import os
 import shutil
 
 # Temporary file
-tmp = 'tmp_timelaps.mp4'
+tmp = 'video/tmp_timelaps.mp4'
 # Main file
-timelaps_name = 'timelaps.mp4'
+timelaps_name = 'video/timelaps.mp4'
+# Edit timelaps tmp
+edit_timelaps = 'video/edit_timelaps.mp4'
 
 class Editor:
 
@@ -50,7 +52,7 @@ class Editor:
             tmp
         ])
         
-        # If not exists teh main video
+        # If not exists the main video
         # create it with the first image
         if not os.path.exists(timelaps_name):
             subprocess.run([
@@ -68,7 +70,8 @@ class Editor:
     def concat_video(self):
 
         # Clone and remove the old one
-        self.clone_file(timelaps_name, "edit_timelaps.mp4")
+        os.remove(edit_timelaps)
+        self.clone_file(timelaps_name, edit_timelaps)
         os.remove(timelaps_name)
 
         print(">> Concat tmp time laps")
