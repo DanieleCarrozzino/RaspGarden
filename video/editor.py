@@ -13,6 +13,8 @@ class Editor:
     def create_video(self, images_folder, output_video_path = "./tmp_timelaps.mp4", fps=5):
 
         print(">> Creating tmp time laps")
+        current_path = os.getcwd()
+        print("Current Path:", current_path)
 
         # Ensure the output directory exists
         os.makedirs(os.path.dirname(output_video_path), exist_ok=True)
