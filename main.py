@@ -102,15 +102,12 @@ def processing_data(dict : dict):
     # is more than MAX_VALUES length
     if len(old_data["temperatures"]) > MAX_VALUES:
         old_data["temperatures"].pop(0)
-        pass
 
     if len(old_data["humidity"]) > MAX_VALUES:
         old_data["humidity"].pop(0)
-        pass
 
     if len(old_data["soil_moistures"]) > MAX_VALUES:
         old_data["soil_moistures"].pop(0)
-        pass
 
     old_data["temperatures"].append(dict['temperature'])
     old_data["humidity"].append(dict['humidity'])
@@ -136,6 +133,16 @@ def processing_data(dict : dict):
     print(avarage_humidity)
     print(avarage_soil_moisture)
     print(avarage_temperature)
+
+
+def watering(dict):
+
+    # Get personal data and thresholds
+    personal = firebase_database.get_personal_data()
+    if personal['min_watering'] > dict['']:
+        pass
+    pass
+
 
 #
 # SAVE PICTURE
@@ -163,6 +170,21 @@ def create_timelaps(images_path):
     return editor.concat_video()
 
 
+# Take picture
+# take a picture after a user
+# explicit request
+def take_picture_on_request(data):
+    print("> Take picture")
+    picture_path = "./instant_pictures/"
+    name = camera.capture(picture_path)
+
+    print("> Save photo")
+    current_time = datetime.datetime.now()
+    new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+    save_picture(picture_path + name, "InstantPictures/" + new_name + name)
+    pass
+
+
 def create_qr():
     text = "rasp_code:rasp_test_code1"
     path = qr_creator.create_and_save_QR(text)
@@ -181,6 +203,11 @@ def main():
     create_qr()
     print("\n\n")
 
+    print("Observe raspberry changes")
+    print("- Camera request")
+    firebase_database.observe_specific_data("camera", take_picture_on_request)
+    print("-----------------")
+
     print("> Starting loop")
     while True:
 
@@ -191,6 +218,10 @@ def main():
         print("> Processing data")
         # Process all data
         processing_data(dict_result)
+
+        print("> Watering the plants if needed")
+        # Check needed
+        watering(dict_result)
 
         print("> Update gardens")
         # Get gardens to update

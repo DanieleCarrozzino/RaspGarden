@@ -30,7 +30,7 @@ class Editor:
     #
     # fps 10 to get a slow video
     # fps 80 to get a real video
-    def create_video(self, images_folder, fps=5):
+    def create_video(self, images_folder, fps=60):
 
         print(">> Creating tmp time laps")
         # current_path = os.getcwd() + '/pictures/%d.png'

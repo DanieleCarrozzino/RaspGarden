@@ -15,3 +15,26 @@ class Database:
         # Save data to the database
         ref.update(dict)
         pass
+
+    # Observe node
+    # observe a specific node to 
+    # be able to react instantly 
+    # to the changes
+    def observe_node(self, node, callback):
+        ref = db.reference(f'/{node}')
+        def stream_handler(message):
+            callback(message.data)
+        ref.listen(stream_handler)
+
+    def observe_specific_data(self, element, callback):
+        ref = db.reference(f'/raspberry/{firebase.getPersonalCode()}/{element}')
+        def stream_handler(message):
+            callback(message.data)
+        ref.listen(stream_handler)
+
+    def get_personal_data(self):
+        ref     = db.reference(f'/raspberry/{firebase.getPersonalCode()}')
+        data    = ref.get()
+
+        print(data)
+        return data
