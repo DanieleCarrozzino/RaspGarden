@@ -14,6 +14,7 @@ print("Others")
 import time
 import shutil
 import datetime
+import threading
 
 # Const
 MAX_VALUES = 30
@@ -222,7 +223,13 @@ def main():
 
     print("Observe raspberry changes")
     print("- Camera request")
-    observe_changes()
+
+    # Create daemon thread
+    thread = threading.Thread(target=observe_changes, name="Take picture async thread")
+    thread.daemon = True
+
+    # Start thread
+    thread.start()
     print("-----------------")
 
     print("> Starting loop")
