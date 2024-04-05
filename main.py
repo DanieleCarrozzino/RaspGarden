@@ -139,8 +139,10 @@ def watering(dict):
 
     # Get personal data and thresholds
     personal = firebase_database.get_personal_data()
-    if personal['min_watering'] > dict['min_watering']:
-        pass
+    if personal['min_watering'] > 0 and personal['max_watering'] < 100: # TODO dict['watering']:
+        print("WATER")
+    else:
+        print("NO WATER")
     pass
 
 
@@ -184,8 +186,8 @@ def take_picture_on_request(data):
     save_picture(picture_path + name, "InstantPictures/" + new_name + name)
     pass
 
-async def observe_changes():
-    await firebase_database.observe_specific_data("camera", take_picture_on_request)
+def observe_changes():
+    firebase_database.observe_specific_data("camera", take_picture_on_request)
 
 
 def create_qr():
