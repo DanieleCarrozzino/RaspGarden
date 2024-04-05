@@ -196,6 +196,18 @@ def create_qr():
     save_picture(path, "QR/qr.png")
     pass
 
+def check_hour_to_take_a_photo():
+    # Get the current date and time
+    current_time = datetime.now()
+
+    # Get the hour from the current time
+    current_hour = current_time.hour
+
+    # Check if the hour is between 8 PM (20) and 6 AM (6)
+    if 20 <= current_hour or current_hour < 6:
+        return False
+    return True
+
 def main():
 
     print("|***********************|")
@@ -233,30 +245,31 @@ def main():
         gardens = reader.get_gardens()
         update_gardens(gardens)
 
-        print("> Get picture")
-        picture_path = "./pictures/"
-        name = camera.capture(picture_path)
+        if check_hour_to_take_a_photo():
+            print("> Get picture")
+            picture_path = "./pictures/"
+            name = camera.capture(picture_path)
 
-        print("> Save photo")
-        # OPEN in RELEASE
-        # Create a new different name
-        current_time = datetime.datetime.now()
-        new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-        save_picture(picture_path + name, "Pictures/" + new_name + name)
+            print("> Save photo")
+            # OPEN in RELEASE
+            # Create a new different name
+            current_time = datetime.datetime.now()
+            new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+            save_picture(picture_path + name, "Pictures/" + new_name + name)
 
-        print("> Create timelaps")
-        output_path_timelaps = create_timelaps(picture_path)
+            print("> Create timelaps")
+            output_path_timelaps = create_timelaps(picture_path)
 
-        print("> Save timelaps")
-        save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
+            print("> Save timelaps")
+            save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
 
-        print("> Analyze the result")
-        # Analyze
-        # model = analyzer.PlantAnalyzer()
-        # model.getWebcamResult()
+            print("> Analyze the result")
+            # Analyze
+            # model = analyzer.PlantAnalyzer()
+            # model.getWebcamResult()
 
-        print("> Remove the local picture")
-        shutil.rmtree(picture_path)
+            print("> Remove the local picture")
+            shutil.rmtree(picture_path)
 
         print("> Sleep to restart")
         # Pause and restart
