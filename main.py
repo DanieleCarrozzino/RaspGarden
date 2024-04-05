@@ -184,6 +184,10 @@ def take_picture_on_request(data):
     save_picture(picture_path + name, "InstantPictures/" + new_name + name)
     pass
 
+async def observe_changes():
+    firebase_database.observe_specific_data("camera", take_picture_on_request)
+    pass
+
 
 def create_qr():
     text = "rasp_code:rasp_test_code1"
@@ -205,7 +209,7 @@ def main():
 
     print("Observe raspberry changes")
     print("- Camera request")
-    firebase_database.observe_specific_data("camera", take_picture_on_request)
+    observe_changes()
     print("-----------------")
 
     print("> Starting loop")
@@ -255,7 +259,7 @@ def main():
 
         print("> Sleep to restart")
         # Pause and restart
-        time.sleep(1800)
+        time.sleep(5)
 
 if __name__ == "__main__":
     main()
