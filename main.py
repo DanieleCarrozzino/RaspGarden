@@ -198,7 +198,7 @@ def create_qr():
 
 def check_hour_to_take_a_photo():
     # Get the current date and time
-    current_time = datetime.now()
+    current_time = datetime.datetime.now()
 
     # Get the hour from the current time
     current_hour = current_time.hour
