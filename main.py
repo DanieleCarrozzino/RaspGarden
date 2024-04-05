@@ -273,7 +273,7 @@ def main():
 
         print("> Sleep to restart")
         # Pause and restart
-        time.sleep(5)
+        time.sleep(3600)
 
 if __name__ == "__main__":
     main()
