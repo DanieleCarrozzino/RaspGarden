@@ -19,19 +19,13 @@ class ImagesStorage:
         pass
 
     def save_image(self, file_path, destination_path):
-
         blob = self.bucket.blob(destination_path)
         blob.upload_from_filename(file_path)
-
-        print("File uploaded to Firebase Storage successfully.")
         pass
 
     def save_image_from_file_name(self, file_path, file_name):
-
-        print(f">>> Final destination path : {self.code}/{file_name}")
         blob = self.bucket.blob(f"{self.code}/{file_name}")
         blob.upload_from_filename(file_path)
-        print(">>> File uploaded to Firebase Storage successfully.")
         pass
 
     def downloadFile(self):

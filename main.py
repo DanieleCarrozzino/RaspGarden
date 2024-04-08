@@ -8,8 +8,10 @@ print("Sensors")
 from raspberry.sensors import DHT11
 from raspberry.sensors import ADS1115
 from raspberry.camera import rasp_camera as Camera
-print("Vidoe editing")
+print("Video editing")
 from video import editor as VideoEditor
+print("Utility")
+from utility import utility
 print("Others")
 import time
 import shutil
@@ -155,10 +157,6 @@ def watering(dict):
 # into the folder of this raspberry code
 #
 def save_picture(file_path, file_name):
-    print(">> File name of the new picture")
-    print(file_name)
-    print(">> File path of the picture")
-    print(file_path)
     storage_manager.save_image_from_file_name(file_path, file_name)
     pass
 
@@ -210,27 +208,22 @@ def check_hour_to_take_a_photo():
     return True
 
 def main():
+    
+    utility.printHeading()
 
-    print("|***********************|")
-    print('| Start watching garden |')
-    print("|***********************|")
-    print("| - Daniele carrozzino  |")
-    print("|_______________________|")
-
-    print("\n\nCreate qr to provide something")
+    # Create personal qr code to 
+    # pair and connect the devices 
+    # with this raspberry
     create_qr()
-    print("\n\n")
 
-    print("Observe raspberry changes")
-    print("- Camera request")
-
+    # You can take a picture of the garden
+    # every time you want, and it must be async 
+    # from the rest of the code, that is slept
+    # most of the time
     # Create daemon thread
     thread = threading.Thread(target=observe_changes, name="Take picture async thread")
     thread.daemon = True
-
-    # Start thread
     thread.start()
-    print("-----------------")
 
     print("> Starting loop")
     while True:
@@ -288,25 +281,25 @@ if __name__ == "__main__":
 #######################
 # Save into Firestore #
 #######################
-firestore_manager = firestore.FirebaseDatabse()
-data = {
-    'name': 'John Doe',
-    'age': 30,
-    'email': 'johndoe@example.com'
-}
-firestore_manager.save(data, 'user', 'user1')
-firestore_manager.get('user', 'user1')
+# firestore_manager = firestore.FirebaseDatabse()
+# data = {
+#     'name': 'John Doe',
+#     'age': 30,
+#     'email': 'johndoe@example.com'
+# }
+# firestore_manager.save(data, 'user', 'user1')
+# firestore_manager.get('user', 'user1')
 
 
 ##############################
 # Save images into storage   #
 ##############################
-storage_manager = storage.ImagesStorage()
-storage_manager.save_image('C:\\Users\\em-hp2\\Desktop\\Works\\Python\\FirebaseProject\\README.md', 'test/test.md')
+# storage_manager = storage.ImagesStorage()
+# storage_manager.save_image('C:\\Users\\em-hp2\\Desktop\\Works\\Python\\FirebaseProject\\README.md', 'test/test.md')
 
 
 #####################
 # Send notification #
 #####################
-message_manager = messaging.Messaging()
-message_manager.sendMessage('title_test', 'body_test')
+# message_manager = messaging.Messaging()
+# message_manager.sendMessage('title_test', 'body_test')
