@@ -156,7 +156,7 @@ def watering(dict):
 # the storage of firebase
 # into the folder of this raspberry code
 #
-def save_picture(file_path, file_name):
+def save_picture(file_path, file_name, folder = "Pictures"):
     storage_manager.save_image_from_file_name(file_path, file_name)
     pass
 
@@ -182,7 +182,7 @@ def take_picture_on_request(data):
     print("> Save photo")
     current_time = datetime.datetime.now()
     new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-    save_picture(picture_path + name, "InstantPictures/" + new_name + name)
+    save_picture(picture_path + name, "InstantPictures/" + new_name + name, "InstantPictures")
     pass
 
 def observe_changes():
@@ -255,7 +255,7 @@ def main():
             # Create a new different name
             current_time = datetime.datetime.now()
             new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-            save_picture(picture_path + name, "Pictures/" + new_name + name)
+            save_picture(picture_path + name, "Pictures/" + new_name + name, "Pictures")
 
             print("> Create timelaps")
             output_path_timelaps = create_timelaps(picture_path)
