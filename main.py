@@ -31,6 +31,9 @@ editor = VideoEditor.Editor()
 firebase_database   = database.Database()
 storage_manager     = storage.ImagesStorage()
 
+# Test and debug
+test = False
+
 # Old data to analyze
 old_data = {
     "temperatures": list(),
@@ -195,8 +198,6 @@ def create_qr():
     save_picture(path, "QR/qr.png")
     pass
 
-
-test = False
 #
 # If the actual hour is over the sunset
 # or before the dawn I don't want to save
