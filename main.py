@@ -195,14 +195,22 @@ def create_qr():
     save_picture(path, "QR/qr.png")
     pass
 
-def check_hour_to_take_a_photo():
-    # Get the current date and time
-    current_time = datetime.datetime.now()
 
-    # Get the hour from the current time
+test = False
+#
+# If the actual hour is over the sunset
+# or before the dawn I don't want to save
+# any picture, because I don't have any 
+# light
+def check_hour_to_take_a_photo():
+    current_time = datetime.datetime.now()
     current_hour = current_time.hour
 
+    test = not test
+    return test
+
     # Check if the hour is between 8 PM (20) and 6 AM (6)
+    # TODO choose a better method to decide if the sun is set or not
     if 20 <= current_hour or current_hour < 6:
         return False
     return True
@@ -273,7 +281,7 @@ def main():
 
         print("> Sleep to restart")
         # Pause and restart
-        time.sleep(3600)
+        time.sleep(5)
 
 if __name__ == "__main__":
     main()
