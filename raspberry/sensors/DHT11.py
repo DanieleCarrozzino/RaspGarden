@@ -14,8 +14,6 @@ class DHTClass:
     # the last 3 valid mesaurament
     # 
     def read(self):
-        print("Start reading temperature and humidity...") 
-
         valid_result_count      = 0
         invalid_result_count    = 0
         avarage_tempreature     = 0
@@ -23,7 +21,6 @@ class DHTClass:
         got_exception           = False
 
         while valid_result_count < 3 and not got_exception:
-            print(valid_result_count)
             try:
                 humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
                 if humidity != None and temperature != None:
@@ -40,11 +37,8 @@ class DHTClass:
 
                     # Get more time to wake up the sensor
                     time.sleep(2)
-
-                print(f"humidity : {humidity} | temperature : {temperature}")
                 pass
             except:
-                print("Get an exception while reading the temperature and humidity sensor")
                 got_exception = True
                 pass
             pass
