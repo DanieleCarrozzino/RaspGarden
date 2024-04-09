@@ -199,11 +199,9 @@ def create_qr():
 # or before the dawn I don't want to save
 # any picture, because I don't have any 
 # light
-def check_hour_to_take_a_photo(loop_test):
+def check_hour_to_take_a_photo():
     current_time = datetime.datetime.now()
     current_hour = current_time.hour
-    
-    return loop_test % 2
 
     # Check if the hour is between 8 PM (20) and 6 AM (6)
     # TODO choose a better method to decide if the sun is set or not
@@ -230,9 +228,7 @@ def main():
     thread.start()
 
     print("> Starting loop")
-    loop_test = 0
     while True:
-        loop_test += 1
 
         print("> Get sensors result")
         # All sensors result
@@ -251,7 +247,7 @@ def main():
         gardens = reader.get_gardens()
         update_gardens(gardens)
 
-        if check_hour_to_take_a_photo(loop_test):
+        if check_hour_to_take_a_photo():
             print("> Get picture")
             picture_path = "./pictures/"
             name = camera.capture(picture_path)
@@ -279,7 +275,7 @@ def main():
 
         print("> Sleep to restart")
         # Pause and restart
-        time.sleep(5)
+        time.sleep(300)
 
 if __name__ == "__main__":
     main()
