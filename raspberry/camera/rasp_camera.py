@@ -18,12 +18,7 @@ class PiCamera():
 
             # Capture a photo
             name = "1" + self.photo_extension 
-
-            print(">>> Final path destination")
-            print(photo_path + name)
             camera.capture(photo_path + name)
-
-        print(f">>> Return value {name}")
         return name
 
     def video_capture(self, video_path):
