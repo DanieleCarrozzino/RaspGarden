@@ -32,7 +32,7 @@ firebase_database   = database.Database()
 storage_manager     = storage.ImagesStorage()
 
 # Test and debug
-test = False
+loop_test = False
 
 # Old data to analyze
 old_data = {
@@ -207,8 +207,8 @@ def check_hour_to_take_a_photo():
     current_time = datetime.datetime.now()
     current_hour = current_time.hour
 
-    test = not test
-    return test
+    loop_test = not loop_test
+    return loop_test
 
     # Check if the hour is between 8 PM (20) and 6 AM (6)
     # TODO choose a better method to decide if the sun is set or not
@@ -285,6 +285,7 @@ def main():
         time.sleep(5)
 
 if __name__ == "__main__":
+    loop_test = False
     main()
 
 #######################
