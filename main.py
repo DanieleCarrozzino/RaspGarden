@@ -178,12 +178,9 @@ def take_picture_on_request(data):
     picture_path = "./instant_pictures/"
     name = camera.capture(picture_path)
 
-    print("> Save photo")
-    print(picture_path + name)
-    print(name)
-    print("InstantPictures/" + name)
-    print("---------------------")
-    save_picture(picture_path + name, "InstantPictures/" + name, "InstantPictures")
+    current_time = datetime.datetime.now()
+    new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+    save_picture(picture_path + name, "InstantPictures/" + new_name + name, "InstantPictures")
     pass
 
 def observe_changes():
