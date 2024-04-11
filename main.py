@@ -179,6 +179,10 @@ def take_picture_on_request(data):
     name = camera.capture(picture_path)
 
     print("> Save photo")
+    print(picture_path + name)
+    print(name)
+    print("InstantPictures/" + name)
+    print("---------------------")
     save_picture(picture_path + name, "InstantPictures/" + name, "InstantPictures")
     pass
 

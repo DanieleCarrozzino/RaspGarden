@@ -26,6 +26,9 @@ class ImagesStorage:
     def save_image_from_file_name(self, file_path, file_name, folder = "Pictures"):
         blob = self.bucket.blob(f"{self.code}/{file_name}")
         blob.upload_from_filename(file_path)
+
+        # delete the oldest
+        self.delete_the_oldest(folder)
         pass
 
     def delete_the_oldest(self, folder):        
