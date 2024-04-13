@@ -22,7 +22,7 @@ class ADS1115Class:
                 values[i] = self.adc.read_adc(i, gain=self.GAIN)
             print('| {0:>6} | {1:>6} | {2:>6} | {3:>6} |'.format(*values))
             print(values)
-        except:
-            print("Exception catched")
+        except Exception as e:
+            print("Exception catched", e)
 
         return values
