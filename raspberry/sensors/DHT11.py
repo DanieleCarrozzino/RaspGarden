@@ -2,6 +2,10 @@
 import Adafruit_DHT
 import time
 
+# Configurazione guardando il blu
+# pin centrale attaccato a 5V
+# pin a destra al ground
+# pin a Sinistra al pin GPIO4
 class DHTClass:
 
     def __init__(self) -> None:
@@ -36,7 +40,7 @@ class DHTClass:
                         return 0, 0
 
                     # Get more time to wake up the sensor
-                    time.sleep(2)
+                    time.sleep(1)
                 pass
             except:
                 got_exception = True
