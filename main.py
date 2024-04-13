@@ -204,7 +204,7 @@ def check_hour_to_take_a_photo():
 
     # Check if the hour is between 8 PM (20) and 6 AM (6)
     # TODO choose a better method to decide if the sun is set or not
-    if 20 <= current_hour or current_hour < 6:
+    if 20 <= current_hour or current_hour < 7:
         return False
     return True
 
