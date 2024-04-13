@@ -1,7 +1,7 @@
-print("Firebase")
-from firebase import storage, firestore, messaging, database, main_firebase
+from raspberry.sensors import DHT11
 
-db = database.Database()
-data = db.get_personal_data()
+sensor_temperature  = DHT11.DHTClass()
 
-print(data['activated'])
+while(True):
+    print(sensor_temperature.read())
+    pass
