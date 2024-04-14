@@ -1,10 +1,9 @@
-from raspberry.sensors import DHT11
-from raspberry.sensors import ADS1115
+from raspberry.water import Pump
 import time
 
-sensor_moisture     = ADS1115.ADS1115Class()
+pump = Pump.PumpClass()
 
 while(True):
-    print(sensor_moisture.read())
-    time.sleep(1)
+    pump.start()
+    time.sleep(100)
     pass
