@@ -1,5 +1,6 @@
 from firebase_admin import storage
 from firebase import main_firebase as firebase
+import datetime
 import os
 
 # Save images inside my personal 
@@ -25,6 +26,14 @@ class ImagesStorage:
 
     def save_image_from_file_name(self, file_path, file_name, folder = "Pictures"):
         blob = self.bucket.blob(f"{self.code}/{file_name}")
+
+        metadata = {
+            "author"        : "Daniele Carrozzino",
+            "description"   : folder,
+            "date"          : datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        }
+
+        blob.metadata = metadata
         blob.upload_from_filename(file_path)
 
         # delete the oldest
