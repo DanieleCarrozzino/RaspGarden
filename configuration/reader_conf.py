@@ -89,7 +89,7 @@ class ConfReader:
         # upload a new config file
         self.readConfig()
         
-        return self.token_list
+        return self.users_list
     
     def get_gardens(self):
 
