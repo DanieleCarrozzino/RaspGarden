@@ -30,6 +30,7 @@ class FirebaseDatabase:
 
     def get(self, collection, document):
         doc_ref = self.db.collection(collection).document(document)
+        print(doc_ref)
         doc  = doc_ref.get()
         data = doc.to_dict()
         print(data)

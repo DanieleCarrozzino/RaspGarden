@@ -76,6 +76,7 @@ def update_gardens(gardens):
 def get_tokens_from_users(users):
     for user in users:
         print("TOKEN")
+        print(user)
         print(firebase_static_database.get(user, "firebase_token"))
         pass
     pass
