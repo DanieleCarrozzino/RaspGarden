@@ -32,6 +32,7 @@ class ConfReader:
     def __init__(self) -> None:
         self.token_list     = list()
         self.garden_list    = list()
+        self.users_list     = list()
         pass
 
     def readConfig(self):
@@ -54,9 +55,9 @@ class ConfReader:
             # Accessing values from the JSON data
             # TODO read the user id and then
             # get the token from firebase firestore
-            print("garden_id:", json_data['garden_id'])
-            print("user_token:", json_data['user_token'])
-            print("user_uid:", json_data['user_uid'])
+            print("garden_id:",     json_data['garden_id'])
+            print("user_token:",    json_data['user_token'])
+            print("user_uid:",      json_data['user_uid'])
 
             if json_data['user_token'] not in self.token_list:
                 self.token_list.append(json_data['user_token'])
@@ -66,9 +67,22 @@ class ConfReader:
                 self.garden_list.append(json_data['garden_id'])
                 pass
 
+            if json_data['user_uid'] not in self.users_list:
+                self.users_list.append(json_data['user_uid'])
+                pass
+
             pass
 
     def get_tokens(self):
+
+        # To be sure to read all the config.
+        # I have not any listener if a new user
+        # upload a new config file
+        self.readConfig()
+        
+        return self.token_list
+    
+    def get_users(self):
 
         # To be sure to read all the config.
         # I have not any listener if a new user

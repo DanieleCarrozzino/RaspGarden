@@ -28,8 +28,9 @@ camera = Camera.PiCamera()
 reader = reader_conf.ConfReader()
 editor = VideoEditor.Editor()
 # Firebase
-firebase_database   = database.Database()
-storage_manager     = storage.ImagesStorage()
+firebase_database           = database.Database()
+firebase_static_database    = firestore.FirebaseDatabase()
+storage_manager             = storage.ImagesStorage()
 
 # Test and debug
 loop_test = 0
@@ -66,6 +67,18 @@ def update_gardens(gardens):
         firebase_database.update_node('gardens', garden, serializable_data)
     pass
 
+
+#
+# Get tokens
+# get the users' token from firebase 
+# by their uid
+#
+def get_tokens_from_users(users):
+    for user in users:
+        print("TOKEN")
+        print(firebase_static_database.get(user, "firebase_token"))
+        pass
+    pass
 
 
 #
@@ -254,6 +267,11 @@ def main():
             # Get gardens to update
             gardens = reader.get_gardens()
             update_gardens(gardens)
+
+            print("> Print tokens")
+            # Get the users' token form firebase
+            users = reader.get_users()
+            get_tokens_from_users(users)
 
         #
         # TIMELAPSE UPDATE

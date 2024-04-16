@@ -1,7 +1,7 @@
 from firebase_admin import firestore
 from firebase import main_firebase as firebase
 
-class FirebaseDatabse:
+class FirebaseDatabase:
 
     def __init__(self) -> None:
         # init firebase
