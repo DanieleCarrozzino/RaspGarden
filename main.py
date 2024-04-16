@@ -227,25 +227,38 @@ def main():
     thread.start()
 
     print("> Starting loop")
+    loop_count = 0
     while True:
 
-        print("> Get sensors result")
-        # All sensors result
-        dict_result = get_new_data()
+        #
+        # GARDEN UPDATE 
+        # I only update the garden every 30 minutes
+        #
+        if(loop_count >= 11 or loop_count == 0):
+            # Restart the count looper
+            loop_count = 1
 
-        print("> Processing data")
-        # Process all data
-        processing_data(dict_result)
+            print("> Get sensors result")
+            # All sensors result
+            dict_result = get_new_data()
 
-        print("> Watering the plants if needed")
-        # Check needed
-        watering(dict_result)
+            print("> Processing data")
+            # Process all data
+            processing_data(dict_result)
 
-        print("> Update gardens")
-        # Get gardens to update
-        gardens = reader.get_gardens()
-        update_gardens(gardens)
+            print("> Watering the plants if needed")
+            # Check needed
+            watering(dict_result)
 
+            print("> Update gardens")
+            # Get gardens to update
+            gardens = reader.get_gardens()
+            update_gardens(gardens)
+
+        #
+        # TIMELAPSE UPDATE
+        # I take a picture of the garden every 5 minutes
+        #
         if check_hour_to_take_a_photo():
             print("> Get picture")
             picture_path = "./pictures/"
@@ -272,8 +285,9 @@ def main():
             print("> Remove the local picture")
             shutil.rmtree(picture_path)
 
-        print("> Sleep to restart")
         # Pause and restart
+        loop_count += 1
+        print("> Sleep to restart")
         time.sleep(300)
 
 if __name__ == "__main__":
