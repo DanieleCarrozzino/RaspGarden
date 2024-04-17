@@ -35,6 +35,4 @@ class Database:
     def get_personal_data(self):
         ref     = db.reference(f'/raspberry/{firebase.getPersonalCode()}')
         data    = ref.get()
-
-        print(data)
         return data

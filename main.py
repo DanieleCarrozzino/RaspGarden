@@ -75,9 +75,8 @@ def update_gardens(gardens):
 #
 def get_tokens_from_users(users):
     for user in users:
-        print("TOKEN")
-        print(user)
-        print(firebase_static_database.get(user, "firebase_token"))
+        data = firebase_static_database.get(user, "firebase_token")
+        print(data["token"])
         pass
     pass
 
@@ -273,6 +272,7 @@ def main():
             # Get the users' token form firebase
             users = reader.get_users()
             get_tokens_from_users(users)
+            # TODO update the user with some notifications
 
         #
         # TIMELAPSE UPDATE

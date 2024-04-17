@@ -25,13 +25,10 @@ class FirebaseDatabase:
     def save(self, data, collection, document):
         doc_ref = self.db.collection(collection).document(document)
         doc_ref.set(data)
-        print("Data saved!")
         pass
 
     def get(self, collection, document):
         doc_ref = self.db.collection(collection).document(document)
-        print(doc_ref)
         doc  = doc_ref.get()
         data = doc.to_dict()
-        print(data)
         return data
