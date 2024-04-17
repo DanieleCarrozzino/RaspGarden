@@ -22,7 +22,7 @@ class DHTClass:
     # the last 3 valid mesaurament
     # 
     def read(self):
-        valid_result_count      = 0
+        valid_result_count      = 1
         invalid_result_count    = 0
         avarage_tempreature     = 0
         avarage_humidity        = 0
@@ -34,7 +34,7 @@ class DHTClass:
                 self.logger.d("internal temperature")
                 self.logger.d(temperature)
                 if humidity != None and temperature != None:
-                    valid_result_count  =  valid_result_count + 1
+                    valid_result_count  += 1
                     avarage_tempreature = avarage_tempreature + temperature
                     avarage_humidity    = avarage_humidity + humidity
                 else:
@@ -53,5 +53,5 @@ class DHTClass:
                 self.logger.d(e)
                 pass
             pass
-        return avarage_tempreature / valid_result_count, avarage_humidity / valid_result_count
+        return avarage_tempreature / (valid_result_count - 1), avarage_humidity / (valid_result_count - 1)
     pass
