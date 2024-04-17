@@ -103,11 +103,13 @@ def get_new_data():
     # Temperature
     # Humidity
     temperature, humidity = sensor_temperature.read()
+    logger.d(temperature)
     sensor_results['temperature']   = temperature
     sensor_results['humidity']      = humidity
 
     # Soil moisture
     values = sensor_moisture.read()
+    logger.d(values)
     sensor_results['moisture'] = values
     
     return sensor_results

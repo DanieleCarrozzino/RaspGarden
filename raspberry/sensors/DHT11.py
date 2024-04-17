@@ -2,6 +2,8 @@
 import Adafruit_DHT
 import time
 
+from utility import Logger 
+
 # Configurazione guardando il blu
 # pin centrale attaccato a 5V
 # pin a destra al ground
@@ -9,6 +11,8 @@ import time
 class DHTClass:
 
     def __init__(self) -> None:
+        #Utility
+        self.logger = Logger.logger()
         self.sensor = Adafruit_DHT.DHT11
         self.pin    = 4 
 
@@ -27,6 +31,8 @@ class DHTClass:
         while valid_result_count < 3 and not got_exception:
             try:
                 humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
+                self.logger.d("internal temperature")
+                self.logger.d(temperature)
                 if humidity != None and temperature != None:
                     valid_result_count  =  valid_result_count + 1
                     avarage_tempreature = avarage_tempreature + temperature
@@ -42,8 +48,9 @@ class DHTClass:
                     # Get more time to wake up the sensor
                     time.sleep(1)
                 pass
-            except:
+            except Exception as e:
                 got_exception = True
+                self.logger.d(e)
                 pass
             pass
         return avarage_tempreature / valid_result_count, avarage_humidity / valid_result_count
