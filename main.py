@@ -172,7 +172,7 @@ def watering(dict):
 # into the folder of this raspberry code
 #
 def save_picture(file_path, file_name, folder = "Pictures"):
-    storage_manager.save_image_from_file_name(file_path, file_name)
+    storage_manager.save_image_from_file_name(file_path, file_name, folder)
     pass
 
 #
