@@ -12,6 +12,7 @@ print("Video editing")
 from video import editor as VideoEditor
 print("Utility")
 from utility import utility
+from utility import Logger
 print("Others")
 import time
 import shutil
@@ -31,6 +32,8 @@ editor = VideoEditor.Editor()
 firebase_database           = database.Database()
 firebase_static_database    = firestore.FirebaseDatabase()
 storage_manager             = storage.ImagesStorage()
+#Utility
+logger = Logger.logger()
 
 # Test and debug
 loop_test = 0
@@ -76,7 +79,7 @@ def update_gardens(gardens):
 def get_tokens_from_users(users):
     for user in users:
         data = firebase_static_database.get(user, "firebase_token")
-        print(data["token"])
+        logger.d(data["token"])
         pass
     pass
 
@@ -187,7 +190,7 @@ def create_timelaps(images_path):
 # take a picture after a user
 # explicit request
 def take_picture_on_request(data):
-    print("> Take picture")
+    logger.d("> Take picture")
     picture_path = "./instant_pictures/"
     name = camera.capture(picture_path)
 
@@ -239,7 +242,7 @@ def main():
     thread.daemon = True
     thread.start()
 
-    print("> Starting loop")
+    logger.d("> Starting loop")
     loop_count = 0
     while True:
 
@@ -251,24 +254,24 @@ def main():
             # Restart the count looper
             loop_count = 1
 
-            print("> Get sensors result")
+            logger.d("> Get sensors result")
             # All sensors result
             dict_result = get_new_data()
 
-            print("> Processing data")
+            logger.d("> Processing data")
             # Process all data
             processing_data(dict_result)
 
-            print("> Watering the plants if needed")
+            logger.d("> Watering the plants if needed")
             # Check needed
             watering(dict_result)
 
-            print("> Update gardens")
+            logger.d("> Update gardens")
             # Get gardens to update
             gardens = reader.get_gardens()
             update_gardens(gardens)
 
-            print("> Print tokens")
+            logger.d("> Print tokens")
             # Get the users' token form firebase
             users = reader.get_users()
             get_tokens_from_users(users)
@@ -279,34 +282,34 @@ def main():
         # I take a picture of the garden every 5 minutes
         #
         if check_hour_to_take_a_photo():
-            print("> Get picture")
+            logger.d("> Get picture")
             picture_path = "./pictures/"
             name = camera.capture(picture_path)
 
-            print("> Save photo")
+            logger.d("> Save photo")
             # OPEN in RELEASE
             # Create a new different name
             current_time = datetime.datetime.now()
             new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
             save_picture(picture_path + name, "Pictures/" + new_name + name, "Pictures")
 
-            print("> Create timelaps")
+            logger.d("> Create timelaps")
             output_path_timelaps = create_timelaps(picture_path)
 
-            print("> Save timelaps")
+            logger.d("> Save timelaps")
             save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
 
-            print("> Analyze the result")
+            logger.d("> Analyze the result")
             # Analyze
             # model = analyzer.PlantAnalyzer()
             # model.getWebcamResult()
 
-            print("> Remove the local picture")
+            logger.d("> Remove the local picture")
             shutil.rmtree(picture_path)
 
         # Pause and restart
         loop_count += 1
-        print("> Sleep to restart")
+        logger.d("> Sleep to restart")
         time.sleep(300)
 
 if __name__ == "__main__":
