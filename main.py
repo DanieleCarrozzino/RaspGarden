@@ -32,6 +32,7 @@ editor = VideoEditor.Editor()
 firebase_database           = database.Database()
 firebase_static_database    = firestore.FirebaseDatabase()
 storage_manager             = storage.ImagesStorage()
+message_manager             = messaging.Messaging()
 #Utility
 logger = Logger.logger()
 
@@ -76,12 +77,13 @@ def update_gardens(gardens):
 # get the users' token from firebase 
 # by their uid
 #
-def get_tokens_from_users(users):
+def get_tokens_from_users(users) -> list:
+    tokens = list()
     for user in users:
         data = firebase_static_database.get(user, "firebase_token")
+        tokens.append(data["token"])
         logger.d(data["token"])
-        pass
-    pass
+    return tokens
 
 
 #
@@ -293,9 +295,11 @@ def main():
 
             logger.d("> Print tokens")
             # Get the users' token form firebase
-            users = reader.get_users()
-            get_tokens_from_users(users)
-            # TODO update the user with some notifications
+            users   = reader.get_users()
+            tokens  = get_tokens_from_users(users)
+            
+            logger.d("> Send push notifications")
+            message_manager.sendMessage("Nuovi dati sul giardino", "PUZZETTA", tokens)
 
         #
         # TIMELAPSE UPDATE

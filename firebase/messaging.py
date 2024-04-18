@@ -11,6 +11,24 @@ class Messaging:
         self.reader = reader.ConfReader() 
         pass
 
+    def sendMessage(self, title, body, tokens):
+        for token in tokens:
+            # Message data
+            message = messaging.Message(
+                notification=messaging.Notification(
+                    title=title,
+                    body=body
+                ),
+                token=token,
+            )
+
+
+            # Send the message
+            response = messaging.send(message)
+            print('Message response:', response)
+        pass
+
+'''
     def sendMessage(self, title, body):
 
         for token in self.reader.get_tokens():
@@ -28,4 +46,5 @@ class Messaging:
             response = messaging.send(message)
             print('Message response:', response)
         pass
+'''
 
