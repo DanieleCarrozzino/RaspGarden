@@ -299,7 +299,7 @@ def main():
             tokens  = get_tokens_from_users(users)
             
             logger.d("> Send push notifications")
-            message_manager.sendMessage("Nuovi dati sul giardino", "PUZZETTA", tokens)
+            # message_manager.sendMessage("Nuovi dati sul giardino", "PUZZETTA", tokens)
 
         #
         # TIMELAPSE UPDATE
