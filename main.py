@@ -214,11 +214,14 @@ def take_picture_on_request(data):
 
 def change_status_garden(data):
     logger.d(data)
+    global activated
     activated = data
 
 def observe_changes(param):
     firebase_database.observe_specific_data(param, take_picture_on_request if param == "camera" else change_status_garden)
-
+    # Keep the thread alive
+    while activated:
+        time.sleep(100)
 
 def create_qr():
     text = "rasp_code:rasp_test_code1"
