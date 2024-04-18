@@ -51,6 +51,9 @@ avarage_temperature     = 0
 avarage_humidity        = 0
 avarage_soil_moisture   = 0
 
+# Status garden
+activated = True
+
 
 #
 # Update gardens
@@ -211,7 +214,7 @@ def take_picture_on_request(data):
 
 def change_status_garden(data):
     logger.d(data)
-    pass
+    activated = data
 
 def observe_changes(param):
     firebase_database.observe_specific_data(param, take_picture_on_request if param == "camera" else change_status_garden)
@@ -280,7 +283,7 @@ def main():
         # GARDEN UPDATE 
         # I only update the garden every 30 minutes
         #
-        if loop_count >= 11 or loop_count == 0:
+        if (loop_count >= 11 or loop_count == 0) and activated:
             # Restart the count looper
             loop_count = 1
 
