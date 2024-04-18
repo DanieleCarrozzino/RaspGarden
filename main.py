@@ -195,6 +195,7 @@ def create_timelaps(images_path):
 # explicit request
 def take_picture_on_request(data):
     logger.d("> Take picture")
+    logger.d(data)
     try:
         # Capture image
         picture_path    = "./instant_pictures/"
@@ -208,8 +209,12 @@ def take_picture_on_request(data):
         logger.d("Take picture EXCEPTION")
         logger.d(e)
 
-def observe_changes():
-    firebase_database.observe_specific_data("camera", take_picture_on_request)
+def change_status_garden(data):
+    logger.d(data)
+    pass
+
+def observe_changes(param):
+    firebase_database.observe_specific_data(param, take_picture_on_request if param == "camera" else change_status_garden)
 
 
 def create_qr():
@@ -234,8 +239,8 @@ def check_hour_to_take_a_photo() -> bool:
     return True
 
 
-def start_observer_thread() -> threading.Thread:
-    thread = threading.Thread(target=observe_changes, name="Take picture async thread")
+def start_observer_thread(param) -> threading.Thread:
+    thread = threading.Thread(target=observe_changes, args=(param,), name="Take picture async thread")
     thread.daemon = True
     thread.start()
     return thread
@@ -255,7 +260,8 @@ def main():
     # from the rest of the code, that is slept
     # most of the time
     # Create daemon thread
-    thread = start_observer_thread()
+    thread_camera = start_observer_thread("camera")
+    thread_active = start_observer_thread("activated")
 
     logger.d("> Starting loop")
     loop_count = 0
@@ -263,10 +269,12 @@ def main():
     while True:
 
         #
-        # Restart teh observer thread if is dead
+        # Restart the observer threads if they are dead
         #
-        if not thread.is_alive():
-            thread = start_observer_thread()
+        if not thread_camera.is_alive():
+            thread_camera = start_observer_thread("camera")
+        if not thread_active.is_alive():
+            thread_active = start_observer_thread("activated")
 
         #
         # GARDEN UPDATE 
