@@ -193,13 +193,18 @@ def create_timelaps(images_path):
 # explicit request
 def take_picture_on_request(data):
     logger.d("> Take picture")
-    picture_path = "./instant_pictures/"
-    name = camera.capture(picture_path)
+    try:
+        # Capture image
+        picture_path    = "./instant_pictures/"
+        name            = camera.capture(picture_path)
 
-    current_time = datetime.datetime.now()
-    new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-    save_picture(picture_path + name, "InstantPictures/" + new_name + name, "InstantPictures")
-    pass
+        # Save image on firebase
+        current_time    = datetime.datetime.now()
+        new_name        = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+        save_picture(picture_path + name, "InstantPictures/" + new_name + name, "InstantPictures")
+    except Exception as e:
+        logger.d("Take picture EXCEPTION")
+        logger.d(e)
 
 def observe_changes():
     firebase_database.observe_specific_data("camera", take_picture_on_request)
@@ -216,7 +221,7 @@ def create_qr():
 # or before the dawn I don't want to save
 # any picture, because I don't have any 
 # light
-def check_hour_to_take_a_photo():
+def check_hour_to_take_a_photo() -> bool:
     current_time = datetime.datetime.now()
     current_hour = current_time.hour
 
@@ -225,6 +230,14 @@ def check_hour_to_take_a_photo():
     if 20 <= current_hour or current_hour < 7:
         return False
     return True
+
+
+def start_observer_thread() -> threading.Thread:
+    thread = threading.Thread(target=observe_changes, name="Take picture async thread")
+    thread.daemon = True
+    thread.start()
+    return thread
+
 
 def main():
     
@@ -240,19 +253,24 @@ def main():
     # from the rest of the code, that is slept
     # most of the time
     # Create daemon thread
-    thread = threading.Thread(target=observe_changes, name="Take picture async thread")
-    thread.daemon = True
-    thread.start()
+    thread = start_observer_thread()
 
     logger.d("> Starting loop")
     loop_count = 0
+
     while True:
+
+        #
+        # Restart teh observer thread if is dead
+        #
+        if not thread.is_alive():
+            thread = start_observer_thread()
 
         #
         # GARDEN UPDATE 
         # I only update the garden every 30 minutes
         #
-        if(loop_count >= 11 or loop_count == 0):
+        if loop_count >= 11 or loop_count == 0:
             # Restart the count looper
             loop_count = 1
 
