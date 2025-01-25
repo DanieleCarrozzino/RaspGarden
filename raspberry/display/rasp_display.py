@@ -139,12 +139,12 @@ class PiDisaply():
         init_display()
         pass
 
-    def write(message):
+    def write(self, message):
         lcd_string(message, LCD_LINE_1)
         lcd_string("16x2 LCD Test", LCD_LINE_2)
         pass
 
-    def empty():
+    def empty(self):
         lcd_string("****************", LCD_LINE_1)
         lcd_string("****************", LCD_LINE_2)
 
