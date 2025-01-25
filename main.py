@@ -242,9 +242,10 @@ def save_ip_adress():
     logger.d("Main::save_ip_address::get the ip form the socket library")
     try:
         # Create a socket to check the IP address
-        hostname = socket.getfqdn()
-        ip_address = socket.gethostbyname(hostname)
-
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+        s.close()
         logger.d(f"Main::save_ip_address::Your Raspberry Pi's IP address is: {ip_address}")
 
         # Save data
