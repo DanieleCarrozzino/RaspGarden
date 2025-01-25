@@ -1,13 +1,10 @@
 import time
-from raspberry.sensors import DHT11
-from raspberry.sensors import ADS1115
+from video import editor as VideoEditor
 
-sensor_temperature  = DHT11.DHTClass()
-sensor_moisture     = ADS1115.ADS1115Class()
+editor = VideoEditor.Editor()
 
 while(True):
-    print(sensor_temperature.read())
-    print(sensor_moisture.read())
-    time.sleep(1)
+    
+    time.sleep(10)
     pass
 

@@ -32,7 +32,7 @@ class Editor:
     # fps 80 to get a real video
     def create_video(self, images_folder, fps=60):
 
-        print(">> Creating tmp time laps")
+        print("Editor::create_video::Creating tmp time laps")
         # current_path = os.getcwd() + '/pictures/%d.png'
         images_folder = images_folder + '%d.png'
 
@@ -47,7 +47,8 @@ class Editor:
             '-framerate', str(fps),
             '-i', images_folder,
             '-c:v', 'libx264',
-            '-r', '30',  # Output video frame rate
+            '-r', '60',  # Output video frame rate
+            '-s', '1920x1080',
             '-pix_fmt', 'yuv420p',
             tmp
         ])
@@ -60,7 +61,8 @@ class Editor:
                 '-framerate', str(fps),
                 '-i', images_folder,
                 '-c:v', 'libx264',
-                '-r', '30',  # Output video frame rate
+                '-r', '60',  # Output video frame rate
+                '-s', '1920x1080',
                 '-pix_fmt', 'yuv420p',
                 timelaps_name
             ])
@@ -82,7 +84,8 @@ class Editor:
             'ffmpeg',
             '-f', 'concat', '-i',
             'concat.txt', '-c:v', 'libx264',
-            '-r', '30',
+            '-r', '60',
+            '-s', '1920x1080',
             '-pix_fmt', 'yuv420p',
             timelaps_name
         ])

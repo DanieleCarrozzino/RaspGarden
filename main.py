@@ -18,6 +18,7 @@ import time
 import shutil
 import datetime
 import threading
+import socket
 
 # Const
 MAX_VALUES = 30
@@ -161,7 +162,6 @@ def processing_data(dict : dict):
 
 
 def watering(dict):
-
     # Get personal data and thresholds
     personal = firebase_database.get_personal_data()
     if personal['min_watering'] > 0 and personal['max_watering'] < 100: # TODO dict['watering']:
@@ -197,7 +197,7 @@ def create_timelaps(images_path):
 # take a picture after a user
 # explicit request
 def take_picture_on_request(data):
-    logger.d("> Take picture")
+    logger.d("Main::main::Take picture as requested")
     logger.d(data)
     try:
         # Capture image
@@ -217,8 +217,17 @@ def change_status_garden(data):
     global activated
     activated = data
 
+def watering_on_request(data):
+    logger.d(f"Main::watering_on_request::{data}")
+
 def observe_changes(param):
-    firebase_database.observe_specific_data(param, take_picture_on_request if param == "camera" else change_status_garden)
+    if param == "camera":
+        firebase_database.observe_specific_data(param, take_picture_on_request)
+    elif param == "activated": 
+        firebase_database.observe_specific_data(param, change_status_garden)
+    else:
+        firebase_database.observe_specific_data("notify_irrigation", watering_on_request)
+
     # Keep the thread alive
     while activated:
         time.sleep(100)
@@ -227,6 +236,22 @@ def create_qr():
     text = "rasp_code:rasp_test_code1"
     path = qr_creator.create_and_save_QR(text)
     save_picture(path, "QR/qr.png")
+    pass
+
+def save_ip_adress():
+    logger.d("Main::save_ip_address::get the ip form the socket library")
+    try:
+        # Create a socket to check the IP address
+        hostname = socket.gethostname()
+        ip_address = socket.gethostbyname(hostname)
+        logger.d(f"Main::save_ip_address::Your Raspberry Pi's IP address is: {ip_address}")
+
+        # Save data
+        data = {"ip" : ""}
+        data["ip"] = ip_address
+        firebase_database.update_personal_node()
+    except socket.error as e:
+        logger.d(f"Main::save_ip_address::Unable to get IP address: {e}")
     pass
 
 #
@@ -246,7 +271,7 @@ def check_hour_to_take_a_photo() -> bool:
 
 
 def start_observer_thread(param) -> threading.Thread:
-    thread = threading.Thread(target=observe_changes, args=(param,), name="Take picture async thread")
+    thread = threading.Thread(target=observe_changes, args=(param,), name="Observe async thread for async request")
     thread.daemon = True
     thread.start()
     return thread
@@ -261,6 +286,13 @@ def main():
     # with this raspberry
     create_qr()
 
+    # Save ip address of this 
+    # raspberry inside the 
+    # storage of firebase
+    # to be able to see any 
+    # changes from the console
+    save_ip_adress()
+
     # You can take a picture of the garden
     # every time you want, and it must be async 
     # from the rest of the code, that is slept
@@ -268,8 +300,9 @@ def main():
     # Create daemon thread
     thread_camera = start_observer_thread("camera")
     thread_active = start_observer_thread("activated")
+    thread_watery = start_observer_thread("water")
 
-    logger.d("> Starting loop")
+    logger.d("Main::main::starting loop")
     loop_count = 0
 
     while True:
@@ -281,6 +314,8 @@ def main():
             thread_camera = start_observer_thread("camera")
         if not thread_active.is_alive():
             thread_active = start_observer_thread("activated")
+        if not thread_watery.is_alive():
+            thread_watery = start_observer_thread("water")
 
         #
         # GARDEN UPDATE 
@@ -290,29 +325,29 @@ def main():
             # Restart the count looper
             loop_count = 1
 
-            logger.d("> Get sensors result")
+            logger.d("Main::main::first step of teh loop, getting sensors data")
             # All sensors result
             dict_result = get_new_data()
 
-            logger.d("> Processing data")
+            logger.d("Main::main::Processing data")
             # Process all data
             processing_data(dict_result)
 
-            logger.d("> Watering the plants if needed")
+            logger.d("Main::main::Watering the plants if needed")
             # Check needed
             watering(dict_result)
 
-            logger.d("> Update gardens")
+            logger.d("Main::main::Update gardens")
             # Get gardens to update
             gardens = reader.get_gardens()
             update_gardens(gardens)
 
-            logger.d("> Print tokens")
+            logger.d("Main::main::Print tokens")
             # Get the users' token form firebase
             users   = reader.get_users()
             tokens  = get_tokens_from_users(users)
             
-            logger.d("> Send push notifications")
+            logger.d("Main::main::Send push notifications")
             # message_manager.sendMessage("Nuovi dati sul giardino", "PUZZETTA", tokens)
 
         #
@@ -320,34 +355,34 @@ def main():
         # I take a picture of the garden every 5 minutes
         #
         if check_hour_to_take_a_photo():
-            logger.d("> Get picture")
+            logger.d("Main::main::Get picture")
             picture_path = "./pictures/"
             name = camera.capture(picture_path)
 
-            logger.d("> Save photo")
+            logger.d("Main::main::Save photo")
             # OPEN in RELEASE
             # Create a new different name
             current_time = datetime.datetime.now()
             new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
             save_picture(picture_path + name, "Pictures/" + new_name + name, "Pictures")
 
-            logger.d("> Create timelaps")
+            logger.d("Main::main::Create timelaps")
             output_path_timelaps = create_timelaps(picture_path)
 
-            logger.d("> Save timelaps")
+            logger.d("Main::main::Save timelaps")
             save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
 
-            logger.d("> Analyze the result")
+            logger.d("Main::main::Analyze the result")
             # Analyze
             # model = analyzer.PlantAnalyzer()
             # model.getWebcamResult()
 
-            logger.d("> Remove the local picture")
+            logger.d("Main::main::Remove the local picture")
             shutil.rmtree(picture_path)
 
         # Pause and restart
         loop_count += 1
-        logger.d("> Sleep to restart")
+        logger.d("Main::main::Sleep to restart")
         time.sleep(300)
 
 if __name__ == "__main__":

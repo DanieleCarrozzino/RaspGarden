@@ -16,6 +16,14 @@ class Database:
         ref.update(dict)
         pass
 
+    # Update a value of this raspberry
+    # Inside the module "raspberry/my_code"
+    def update_personal_node(self, data):
+        ref = db.reference(f'/raspberry/{firebase.getPersonalCode()}')
+        old_data = self.get_personal_data()
+        ref.update(old_data | data)
+        pass
+
     # Observe node
     # observe a specific node to 
     # be able to react instantly 
