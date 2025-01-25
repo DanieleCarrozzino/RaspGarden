@@ -242,14 +242,15 @@ def save_ip_adress():
     logger.d("Main::save_ip_address::get the ip form the socket library")
     try:
         # Create a socket to check the IP address
-        hostname = socket.gethostname()
+        hostname = socket.getfqdn()
         ip_address = socket.gethostbyname(hostname)
+
         logger.d(f"Main::save_ip_address::Your Raspberry Pi's IP address is: {ip_address}")
 
         # Save data
         data = {"ip" : ""}
         data["ip"] = ip_address
-        firebase_database.update_personal_node()
+        firebase_database.update_personal_node(data)
     except socket.error as e:
         logger.d(f"Main::save_ip_address::Unable to get IP address: {e}")
     pass
