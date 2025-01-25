@@ -8,6 +8,7 @@ print("Sensors")
 from raspberry.sensors import DHT11
 from raspberry.sensors import ADS1115
 from raspberry.camera import rasp_camera as Camera
+from raspberry.display import rasp_display as Display
 print("Video editing")
 from video import editor as VideoEditor
 print("Utility")
@@ -27,6 +28,7 @@ MAX_VALUES = 30
 sensor_temperature  = DHT11.DHTClass()
 sensor_moisture     = ADS1115.ADS1115Class()
 camera = Camera.PiCamera()
+display = Display.PiDisaply()
 reader = reader_conf.ConfReader()
 editor = VideoEditor.Editor()
 # Firebase
@@ -162,13 +164,14 @@ def processing_data(dict : dict):
 
 
 def watering(dict):
+    display.write("Start watering")
     # Get personal data and thresholds
     personal = firebase_database.get_personal_data()
     if personal['min_watering'] > 0 and personal['max_watering'] < 100: # TODO dict['watering']:
         print("WATER")
     else:
         print("NO WATER")
-    pass
+    display.empty()
 
 
 #
@@ -198,7 +201,8 @@ def create_timelaps(images_path):
 # explicit request
 def take_picture_on_request(data):
     logger.d("Main::main::Take picture as requested")
-    logger.d(data)
+    logger.d(f"Main::main::data | {data}")
+    display.write("Taking picture")
     try:
         # Capture image
         picture_path    = "./instant_pictures/"
@@ -211,6 +215,7 @@ def take_picture_on_request(data):
     except Exception as e:
         logger.d("Take picture EXCEPTION")
         logger.d(e)
+    display.empty()
 
 def change_status_garden(data):
     logger.d(data)
@@ -233,13 +238,16 @@ def observe_changes(param):
         time.sleep(100)
 
 def create_qr():
+    display.write("Creating QR")
     text = "rasp_code:rasp_test_code1"
     path = qr_creator.create_and_save_QR(text)
     save_picture(path, "QR/qr.png")
+    display.empty()
     pass
 
 def save_ip_adress():
     logger.d("Main::save_ip_address::get the ip form the socket library")
+    display.write("Saving ip address")
     try:
         # Create a socket to check the IP address
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -254,7 +262,7 @@ def save_ip_adress():
         firebase_database.update_personal_node(data)
     except socket.error as e:
         logger.d(f"Main::save_ip_address::Unable to get IP address: {e}")
-    pass
+    display.empty()
 
 #
 # If the actual hour is over the sunset
@@ -307,6 +315,7 @@ def main():
     logger.d("Main::main::starting loop")
     loop_count = 0
 
+    display.write("Start looping YO!")
     while True:
 
         #
@@ -358,6 +367,7 @@ def main():
         #
         if check_hour_to_take_a_photo():
             logger.d("Main::main::Get picture")
+            display.write("Getting picture!")
             picture_path = "./pictures/"
             name = camera.capture(picture_path)
 
@@ -385,7 +395,9 @@ def main():
         # Pause and restart
         loop_count += 1
         logger.d("Main::main::Sleep to restart")
+        display.write("Sleeping...")
         time.sleep(300)
+        display.write("Here we areee!!!")
 
 if __name__ == "__main__":
     main()
