@@ -213,12 +213,12 @@ def take_picture_on_request(data):
         new_name        = current_time.strftime("%Y-%m-%d_%H-%M-%S")
         save_picture(picture_path + name, "InstantPictures/" + new_name + name, "InstantPictures")
     except Exception as e:
-        logger.d("Take picture EXCEPTION")
-        logger.d(e)
+        logger.d("Main::take_picture_on_request::Take picture EXCEPTION")
+        logger.d(f"Main::take_picture_on_request::{e}")
     display.empty()
 
 def change_status_garden(data):
-    logger.d(data)
+    logger.d(f"Main::change_status_garden::garden status | {data}")
     global activated
     activated = data
 
@@ -336,7 +336,7 @@ def main():
             # Restart the count looper
             loop_count = 1
 
-            logger.d("Main::main::first step of teh loop, getting sensors data")
+            logger.d("Main::main::first step of the loop, getting sensors data")
             # All sensors result
             dict_result = get_new_data()
 
@@ -368,29 +368,33 @@ def main():
         if check_hour_to_take_a_photo():
             logger.d("Main::main::Get picture")
             display.write("Getting picture!")
-            picture_path = "./pictures/"
-            name = camera.capture(picture_path)
+            try:
+                picture_path = "./pictures/"
+                name = camera.capture(picture_path)
 
-            logger.d("Main::main::Save photo")
-            # OPEN in RELEASE
-            # Create a new different name
-            current_time = datetime.datetime.now()
-            new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-            save_picture(picture_path + name, "Pictures/" + new_name + name, "Pictures")
+                logger.d("Main::main::Save photo")
+                # OPEN in RELEASE
+                # Create a new different name
+                current_time = datetime.datetime.now()
+                new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+                save_picture(picture_path + name, "Pictures/" + new_name + name, "Pictures")
 
-            logger.d("Main::main::Create timelaps")
-            output_path_timelaps = create_timelaps(picture_path)
+                logger.d("Main::main::Create timelaps")
+                output_path_timelaps = create_timelaps(picture_path)
 
-            logger.d("Main::main::Save timelaps")
-            save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
+                logger.d("Main::main::Save timelaps")
+                save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
 
-            logger.d("Main::main::Analyze the result")
-            # Analyze
-            # model = analyzer.PlantAnalyzer()
-            # model.getWebcamResult()
+                logger.d("Main::main::Analyze the result")
+                # Analyze
+                # model = analyzer.PlantAnalyzer()
+                # model.getWebcamResult()
 
-            logger.d("Main::main::Remove the local picture")
-            shutil.rmtree(picture_path)
+                logger.d("Main::main::Remove the local picture")
+                shutil.rmtree(picture_path)
+            except Exception as e:
+                logger.d("Main::main::Taking picture exception | Error")
+                logger.d(f"Main::main::{e}")
 
         # Pause and restart
         loop_count += 1
