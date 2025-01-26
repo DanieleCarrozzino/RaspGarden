@@ -7,8 +7,9 @@ class logger:
         pass
 
     def d(self, text):
-        print(text)
         current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        text_to_print = f"{current_time} | {text}\n" 
+        print(text_to_print)
         with open(self.filename, 'a') as file:
             # Write text to the file
-            file.write(f"{current_time} | {text}\n")
+            file.write(text_to_print)

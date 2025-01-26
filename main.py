@@ -365,7 +365,7 @@ def main():
 
         #
         # TIMELAPSE UPDATE
-        # I take a picture of the garden every 5 minutes
+        # I take a picture of the garden every minute
         #
         if check_hour_to_take_a_photo():
             logger.d("Main::main::Get picture")
