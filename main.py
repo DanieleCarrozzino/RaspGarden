@@ -188,12 +188,14 @@ def save_picture(file_path, file_name, folder = "Pictures"):
 #
 # CREATE TIMELAPS
 # create the new video with the new image
-# and then caoncat the video with the main
-# video
+# and then concat the resulting video with 
+# the main video
 #
 def create_timelaps(images_path):
-    editor.create_video(images_path)
-    return editor.concat_video()
+    result = editor.create_video(images_path)
+    if result :
+        return editor.concat_video()
+    return ""
 
 
 # Take picture
@@ -376,14 +378,15 @@ def main():
                 # OPEN in RELEASE
                 # Create a new different name
                 current_time = datetime.datetime.now()
-                new_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-                save_picture(picture_path + name, "Pictures/" + new_name + name, "Pictures")
+                prefix = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+                save_picture(picture_path + name, "Pictures/" + prefix + name, "Pictures")
 
                 logger.d("Main::main::Create timelaps")
                 output_path_timelaps = create_timelaps(picture_path)
 
                 logger.d("Main::main::Save timelaps")
-                save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
+                if len(output_path_timelaps) != 0:
+                    save_picture(output_path_timelaps, "Timelaps/" + "timelaps.mp4")
 
                 logger.d("Main::main::Analyze the result")
                 # Analyze
