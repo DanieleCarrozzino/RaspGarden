@@ -334,7 +334,7 @@ def main():
         # GARDEN UPDATE 
         # I only update the garden every 30 minutes
         #
-        if (loop_count >= 51 or loop_count == 0) and activated:
+        if (loop_count >= 11 or loop_count == 0) and activated:
             # Restart the count looper
             loop_count = 1
 
@@ -403,7 +403,7 @@ def main():
         loop_count += 1
         logger.d("Main::main::Sleep to restart")
         display.write("Sleeping...")
-        time.sleep(60)
+        time.sleep(180)
         display.write("Here we areee!!!")
 
 if __name__ == "__main__":
